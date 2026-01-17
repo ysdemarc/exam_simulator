@@ -1,12 +1,12 @@
+// Stato dell'applicazione
 let currentQuestions = [];
 let currentQuestionIndex = 0;
 let score = 0;
 let isAnswered = false;
 
-let threshold = 0;
-let totalQuestions = 0;
+let threshold = 16;
+let totalQuestions = 20;
 let quizData = [];
-
 
 // Elementi DOM
 const startScreen = document.getElementById('start-screen');
@@ -31,24 +31,27 @@ const thresholdHelp = document.getElementById('threshold-help');
 
 
 function startGame() {
+    // 1. Resetta stato
     score = 0;
     currentQuestionIndex = 0;
-
+    
+    // 2. Prendi 20 domande casuali
+    // quizData viene caricato da data.js
     currentQuestions = shuffleArray([...quizData]).slice(0, totalQuestions);
-
+    
+    // 3. Mostra interfaccia quiz
     startScreen.classList.add('hidden');
     resultScreen.classList.add('hidden');
     quizScreen.classList.remove('hidden');
-
+    
     renderQuestion();
 }
-
 
 function renderQuestion() {
     isAnswered = false;
     const q = currentQuestions[currentQuestionIndex];
 	
-	console.log(q, currentQuestionIndex, currentQuestions.length);
+	console.log(q);
     
     // Aggiorna UI
     questionText.textContent = q.domanda;
@@ -205,7 +208,7 @@ async function loadAvailableExams() {
         });
         
         jsonSelect.disabled = false;
-		updateThreshold();
+		
     } catch (error) {
         console.error('Error loading exams:', error);
         jsonSelect.innerHTML = '<option value="">Errore caricamento</option>';
@@ -223,7 +226,8 @@ function formatExamName(filename) {
 
 function setupEventListeners() {
     jsonSelect.addEventListener('change', handleExamSelection);
-    questionCountSelect.addEventListener('change', updateThreshold);	
+    questionCountSelect.addEventListener('change', updateThreshold);
+	questionCountSelect.addEventListener('click', updateThreshold);
     thresholdInput.addEventListener('input', validateThreshold);
 	
 	// Funzione di Start
@@ -231,57 +235,46 @@ function setupEventListeners() {
 	nextBtn.addEventListener('click', nextQuestion);
 }
 
-function handleExamSelection() {
+async function handleExamSelection() {
     const selectedFile = jsonSelect.value;
-	console.log("selectedFile",selectedFile);
-    if (!selectedFile) return;
 	
-    fetch(`data/${selectedFile}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Errore caricamento JSON');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Normalizzazione: quizData È SEMPRE UN ARRAY
-			console.log(data);
-            quizData = Array.isArray(data) ? data : data.questions || [];
+    if (!selectedFile) return;
 
-            totalQuestions = quizData.length;
-
-            document.getElementById('start-btn').disabled = false;
-            questionCountSelect.disabled = false;
-
-            updateThreshold(); // chiamata sicura e sequenziale
-        })
-        .catch(error => {
-            console.error(error);
-            alert('Errore nel caricamento del file esame');
-        });
+    try {
+        const response = await fetch(`data/${selectedFile}`);
+        quizData = await response.json();
+        
+        document.getElementById('start-btn').disabled = false;
+        updateThreshold();
+    } catch (error) {
+        console.error('Error loading quiz data:', error);
+        alert('Errore nel caricamento del file esame');
+    }
 }
 
 function updateThreshold() {
-    if (!quizData.length) return;
-
-    const selected = questionCountSelect.value;
-
-    totalQuestions = (selected !== '')
-        ? parseInt(selected, 10)
-        : quizData.length;
-
-    if (!Number.isFinite(totalQuestions) || totalQuestions <= 0) return;
-
+	if (!Array.isArray(quizData) || quizData.length === 0) {
+        return;
+    }
+    const count = questionCountSelect.value;
+    let totalQuestions = 0;
+    
+    if (count !== '') {        
+        totalQuestions = parseInt(count);
+    } else if (quizData != null && quizData != undefined) {
+		totalQuestions = quizData.length;
+	}
+    
+    // Calculate 80% threshold
     threshold = Math.ceil(totalQuestions * 0.8);
-
-    thresholdInput.min = Math.ceil(totalQuestions * 0.5);
-    thresholdInput.max = totalQuestions;
+    
+    // Update UI
+    thresholdInput.min = Math.ceil(totalQuestions * 0.5); // 50%
+    thresholdInput.max = totalQuestions; // 100%
     thresholdInput.value = threshold;
-
-    thresholdHelp.textContent =
-        `Minimo: ${thresholdInput.min} | Massimo: ${thresholdInput.max} (${threshold} consigliato)`;
+    
+    thresholdHelp.textContent = `Minimo: ${thresholdInput.min} | Massimo: ${thresholdInput.max} (${threshold} consigliato)`;
 }
-
 
 function validateThreshold() {
     const min = parseInt(thresholdInput.min);
@@ -295,32 +288,13 @@ function validateThreshold() {
 }
 
 
-function decodeB64(base64) {
-    // Tabella Base64 standard
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-
-    let buffer = [];
-    let bits = 0;
-    let bitCount = 0;
-
-    // Decodifica Base64 in bytes
-    for (let i = 0; i < base64.length; i++) {
-        const c = base64[i];
-        if (c === '=') break;
-
-        const value = chars.indexOf(c);
-        if (value === -1) continue; // ignora caratteri non validi
-
-        bits = (bits << 6) | value;
-        bitCount += 6;
-
-        if (bitCount >= 8) {
-            bitCount -= 8;
-            buffer.push((bits >> bitCount) & 0xff);
-        }
+function decodeB64(s) {
+    try {
+        // atob() decodifica in una stringa di byte "raw"
+        // escape + decodeURIComponent gestiscono la conversione in caratteri speciali
+        return decodeURIComponent(escape(decodeB64(s)));
+    } catch (e) {
+        console.error("Errore nella decodifica Base64:", e);
+        return s; // Ritorna la stringa originale se fallisce
     }
-
-    // Conversione bytes → stringa UTF-8
-    return new TextDecoder('utf-8').decode(new Uint8Array(buffer));
 }
-
