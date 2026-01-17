@@ -256,7 +256,7 @@ function updateThreshold() {
     const count = questionCountSelect.value;
     const totalQuestions = quizData.length;
     
-    if (count!== 'all') {        
+    if (count !== 'all') {        
         totalQuestions = parseInt(count);
     }
     
