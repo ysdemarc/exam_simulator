@@ -1,0 +1,769 @@
+[
+  {
+    "id": 0,
+    "domanda": "In che modo un modello di accesso alle risorse con privilegi minimi contribuisce alla sicurezza del cloud?",
+    "opzioni": [
+      "Solo i manager e gli altri dipendenti senior hanno accesso alle risorse del cloud.",
+      "I dipendenti hanno accesso solo alle risorse cloud necessarie per il loro lavoro.",
+      "Google è responsabile della determinazione dell'accesso alle risorse cloud.",
+      "I dipendenti possono accedere al software on-premise solo con un permesso speciale."
+    ],
+    "risposta_corretta": "I dipendenti hanno accesso solo alle risorse cloud necessarie per il loro lavoro.",
+    "spiegazione": "Il principio dei privilegi minimi limita l'accesso utente esattamente a ciò che serve per svolgere le proprie mansioni, riducendo la superficie di attacco e il rischio di danni accidentali o intenzionali."
+  },
+  {
+    "id": 1,
+    "domanda": "Quale opzione di calcolo riduce i costi quando ci si impegna a un utilizzo costante dell'elaborazione per un periodo di 1 anno o 3 anni?",
+    "opzioni": [
+      "Istanze spot",
+      "Host dedicati",
+      "Istanze riservate",
+      "Savings Plans"
+    ],
+    "risposta_corretta": "Savings Plans",
+    "spiegazione": "Savings Plans offrono sconti fino al 72% rispetto ai prezzi on-demand in cambio di un impegno di utilizzo (misurato in $/ora) per 1 o 3 anni, indipendentemente dalle famiglie di istanze."
+  },
+  {
+    "id": 2,
+    "domanda": "Quale delle opzioni seguenti si può usare per convalidare le proprietà di un elemento che deve essere salvato?",
+    "opzioni": [
+      "Codice dell’applicazione che utilizza Cosmos DB",
+      "Funzioni utente",
+      "Pre-trigger",
+      "Post-trigger"
+    ],
+    "risposta_corretta": "Pre-trigger",
+    "spiegazione": "I pre-trigger in Azure Cosmos DB vengono eseguiti prima della scrittura e possono annullare l’operazione se i dati non rispettano i criteri imposti."
+  },
+  {
+    "id": 3,
+    "domanda": "Qual è il metodo consigliato per stimare il costo della migrazione nel cloud?",
+    "opzioni": [
+      "Eseguire la migrazione di una parte dell’ambiente locale nel cloud e tenere traccia dei costi nel tempo",
+      "Migrare l’ambiente in maniera incrementale, una parte alla volta, ottimizzando i costi prima di migrare le parti successive alla corrente",
+      "Eseguire la migrazione nel cloud, ma tenere attentamente traccia dell'utilizzo usando i tag per comprendere rapidamente i costi",
+      "Usare il calcolatore del costo totale di proprietà per stimare i costi previsti"
+    ],
+    "risposta_corretta": "Usare il calcolatore del costo totale di proprietà per stimare i costi previsti",
+    "spiegazione": "Il TCO Calculator confronta i costi on-premise (hardware, energia, manutenzione) con quelli cloud, fornendo una prima stima attendibile prima di iniziare la migrazione."
+  },
+  {
+    "id": 4,
+    "domanda": "Le applicazioni di un'organizzazione sono eseguite su un'architettura on-premises poco flessibile. L'organizzazione ha deciso di modernizzare le applicazioni esistenti con il cloud. Cosa può aver spinto questa decisione aziendale?",
+    "opzioni": [
+      "Gli sviluppatori vogliono che i fornitori di cloud assumano il pieno controllo delle prestazioni delle loro applicazioni.",
+      "Gli sviluppatori vogliono testare le idee e sperimentare con maggiore facilità.",
+      "I responsabili IT vogliono che i fornitori di cloud distribuiscano automaticamente la loro infrastruttura.",
+      "I responsabili IT vogliono smettere di apportare modifiche graduali."
+    ],
+    "risposta_corretta": "Gli sviluppatori vogliono testare le idee e sperimentare con maggiore facilità.",
+    "spiegazione": "Il cloud offre self-service, ambienti di test rapidi e scalabilità che velocizzano l’innovazione e riducono il time-to-market."
+  },
+  {
+    "id": 5,
+    "domanda": "Quale prospettiva di AWS Cloud Adoption Framework si concentra sul ripristino dei carichi di lavoro IT per soddisfare i requisiti delle parti interessate aziendali?",
+    "opzioni": [
+      "Prospettiva personale",
+      "Prospettiva operazioni",
+      "Prospettiva governance",
+      "Prospettiva aziendale"
+    ],
+    "risposta_corretta": "Prospettiva operazioni",
+    "spiegazione": "La prospettiva Operations definisce processi di incident management, disaster recovery e business continuity per allineare l’operatività IT agli obiettivi aziendali."
+  },
+  {
+    "id": 6,
+    "domanda": "Com’è possibile impedire la creazione di risorse non conformi, senza doverle valutare manualmente?",
+    "opzioni": [
+      "Azure Policy",
+      "Azure Purview",
+      "Azure Log Analytics",
+      "Azure Monitor"
+    ],
+    "risposta_corretta": "Azure Policy",
+    "spiegazione": "Azure Policy applica regole (es. tipi di VM, tag, location) bloccando la creazione di risorse non conformi già al momento del deployment."
+  },
+  {
+    "id": 7,
+    "domanda": "Un’azienda dispone di tre macchine virtuali (VM1, VM2 e VM3) in un gruppo di risorse. Il supporto tecnico assume un nuovo dipendente, che deve essere in grado di modificare le impostazioni in VM3, ma non in VM1 e VM2. La soluzione adottata deve ridurre al minimo il sovraccarico amministrativo. Cosa deve essere configurato?",
+    "opzioni": [
+      "Spostare VM3 in un nuovo gruppo di risorse e assegnare l'utente al ruolo Collaboratore in VM3",
+      "Assegnare l'utente al ruolo Collaboratore in VM3",
+      "Assegnare il ruolo di Amministratore globale",
+      "Assegnare l'utente al ruolo Collaboratore nel gruppo di risorse"
+    ],
+    "risposta_corretta": "Assegnare l'utente al ruolo Collaboratore in VM3",
+    "spiegazione": "Il RBAC granulare permette di assegnare il ruolo direttamente sulla singola risorsa (VM3) senza spostarla o dare diritti superflui."
+  },
+  {
+    "id": 8,
+    "domanda": "Un'organizzazione di videogiochi ha investito in una tecnologia cloud per generare informazioni sui comportamenti degli utenti. Vuole assicurarsi che le raccomandazioni dei giochi siano allineate agli interessi dei giocatori. Cosa può aver spinto questa decisione aziendale?",
+    "opzioni": [
+      "I clienti si aspettano un time to market più rapido per i giochi.",
+      "I dipendenti si aspettano una spesa più prevedibile per la gestione dei dati.",
+      "I dipendenti si aspettano che le modifiche al codice sorgente vengano distribuite più velocemente.",
+      "I clienti si aspettano un'esperienza personalizzata."
+    ],
+    "risposta_corretta": "I clienti si aspettano un'esperienza personalizzata.",
+    "spiegazione": "Il cloud permette di elaborare grandi volumi di dati di gioco in tempo reale per offrire contenuti e suggerimenti personalizzati, aumentando l’engagement."
+  },
+  {
+    "id": 9,
+    "domanda": "Un'organizzazione vuole introdurre una nuova funzionalità nella propria applicazione rivolta ai clienti. Vuole seguire le best practice SRE. Cosa dovrebbe fare l'organizzazione?",
+    "opzioni": [
+      "Rimandare il lancio della nuova funzione fino a quando l'automazione del lavoro non sarà ridotta al minimo.",
+      "Rimandare il lancio della nuova funzione fino a quando non si è sicuri al 100% che non ci saranno bug.",
+      "Distribuire la nuova funzione a tutti i clienti, in modo che nessun cliente si senta escluso.",
+      "Distribuire la nuova funzione a un sottoinsieme di clienti per testarla."
+    ],
+    "risposta_corretta": "Distribuire la nuova funzione a un sottoinsieme di clienti per testarla.",
+    "spiegazione": "Le SRE promuovono il progressive rollout (canary release) per ridurre il blast radius e monitorare l’affidabilità prima di una distribuzione completa."
+  },
+  {
+    "id": 10,
+    "domanda": "Quale delle opzioni seguenti rappresenta quando un event processor esegue il commit della posizione dell'ultimo evento elaborato correttamente all'interno di una partizione?",
+    "opzioni": [
+      "Acknowlegment",
+      "Backpressure",
+      "Checkpoint",
+      "Bilanciamento del carico"
+    ],
+    "risposta_corretta": "Checkpoint",
+    "spiegazione": "Il checkpoint salva l’offset elaborato; in caso di riavvio, l’event processor riprende da quel punto evitando duplicazioni o perdite."
+  },
+  {
+    "id": 11,
+    "domanda": "Quale modello di sicurezza presuppone lo scenario di sicurezza peggiore e protegge di conseguenza le risorse?",
+    "opzioni": [
+      "Difesa in profondità",
+      "Zero Trust",
+      "Principio dei privilegi minimi",
+      "Controllo degli accessi in base al ruolo"
+    ],
+    "risposta_corretta": "Zero Trust",
+    "spiegazione": "Zero Trust assume che nessuna rete o utente sia attendibile di default, richiedendo continua verifica e micro-segmentazione."
+  },
+  {
+    "id": 12,
+    "domanda": "Un'organizzazione fornisce un Help Desk per i propri clienti. Gli addetti al servizio devono identificare i chiamanti usando gli ultimi quattro numeri della loro carta di credito. È necessario assicurarsi che il numero completo della carta di credito non sia completamente esposto agli addetti al servizio. Quale delle seguenti funzionalità deve essere implementata?",
+    "opzioni": [
+      "Advanced Threat Protection",
+      "Dynamic Data Masking",
+      "Always Encrypted",
+      "Classificazione dei dati"
+    ],
+    "risposta_corretta": "Dynamic Data Masking",
+    "spiegazione": "Dynamic Data Masking mostra solo gli ultimi 4 caratteri mascherando il resto, consentendo l’identificazione senza esporre dati sensibili."
+  },
+  {
+    "id": 13,
+    "domanda": "Un'organizzazione vuole valutare le prestazioni dell'intera infrastruttura cloud, comprese metriche come i tempi di attività dei server e i rapporti sulla velocità di risposta. Quale strumento di Google Cloud dovrebbe utilizzare l'organizzazione?",
+    "opzioni": [
+      "Cloud Trace",
+      "Cloud Monitoring",
+      "Cloud Debugger",
+      "Cloud Profiler"
+    ],
+    "risposta_corretta": "Cloud Monitoring",
+    "spiegazione": "Cloud Monitoring raccoglie metriche, log ed eventi da tutte le risorse GCP fornendo dashboard e alert su uptime e latenza."
+  },
+  {
+    "id": 14,
+    "domanda": "Quale servizio viene utilizzato per eseguire applicazioni in container su AWS?",
+    "opzioni": [
+      "Amazon Redshift",
+      "Amazon SageMaker",
+      "Amazon Elastic Kubernetes Service (Amazon EKS)",
+      "Amazon Aurora"
+    ],
+    "risposta_corretta": "Amazon Elastic Kubernetes Service (Amazon EKS)",
+    "spiegazione": "Amazon EKS è il servizio gestito di Kubernetes di AWS per orchestrare container in produzione con scalabilità e high availability."
+  },
+  {
+    "id": 15,
+    "domanda": "Quale servizio di storage di Azure supporta l'analisi di Big Data, oltre alla gestione dei dati?",
+    "opzioni": [
+      "Azure Files",
+      "Azure BLOB",
+      "Azure Disks",
+      "Azure Data Warehouse"
+    ],
+    "risposta_corretta": "Azure BLOB",
+    "spiegazione": "Azure Blob Storage è ottimizzato per dati non strutturati e si integra nativamente con Azure Synapse e HDInsight per analisi su larga scala."
+  },
+  {
+    "id": 16,
+    "domanda": "Quale affermazione descrive meglio AWS Marketplace?",
+    "opzioni": [
+      "Un catalogo digitale che include migliaia di elenchi di software di fornitori di software indipendenti",
+      "Una risorsa in grado di rispondere a domande sulle best practice e di assistere nella risoluzione dei problemi",
+      "Uno strumento online che ispeziona il tuo ambiente AWS e fornisce indicazioni in tempo reale in conformità con le best practice di AWS",
+      "Una risorsa che fornisce indicazioni, revisioni dell'architettura e comunicazione continua con l'azienda durante la pianificazione, la distribuzione e l'ottimizzazione delle applicazioni"
+    ],
+    "risposta_corretta": "Un catalogo digitale che include migliaia di elenchi di software di fornitori di software indipendenti",
+    "spiegazione": "AWS Marketplace è un catalogo dove ISV pubblicano le proprie immagini AMI e SaaS, facilitando l’acquisto e il deployment su AWS."
+  },
+  {
+    "id": 17,
+    "domanda": "Quale degli elementi seguenti deve essere archiviato in Azure Key Vault?",
+    "opzioni": [
+      "ClusterRolesBindings",
+      "Secret",
+      "Link a certificati esterni",
+      "Managed Entities"
+    ],
+    "risposta_corretta": "Secret",
+    "spiegazione": "Key Vault è progettato per salvare segreti (password, stringhe di connessione, chiavi API) con controllo di accesso e audit centralizzati."
+  },
+  {
+    "id": 18,
+    "domanda": "Un'organizzazione esegue la propria applicazione su una macchina virtuale, ma ogni volta che desidera modificare determinate funzionalità deve mettere il sistema offline per aggiornare l'applicazione. Quale sarebbe una soluzione più appropriata per la loro applicazione?",
+    "opzioni": [
+      "Hypervisors",
+      "Solid State Disk",
+      "Containers",
+      "GPUs"
+    ],
+    "risposta_corretta": "Containers",
+    "spiegazione": "I container consentono aggiornamenti rolling/zero-downtime: si distribuisce una nuova versione mentre quella vecchia continua a servire traffico."
+  },
+  {
+    "id": 19,
+    "domanda": "Quale dei seguenti criteri di API Management è necessario usare per applicare un criterio in base a una condizione?",
+    "opzioni": [
+      "Limit-concurrency",
+      "Choose",
+      "Forward-request",
+      "Return-response"
+    ],
+    "risposta_corretta": "Choose",
+    "spiegazione": "Il criterio <choose> permette ramificazioni condizionali (if-then-else) all’interno dei policy statement di Azure API Management."
+  },
+  {
+    "id": 20,
+    "domanda": "Un'organizzazione ha creato un sito web di e-commerce. Quali dati di questo sito web sono considerati dati strutturati?",
+    "opzioni": [
+      "Recensioni sui prodotti",
+      "Descrizioni dei prodotti",
+      "Fotografie dei prodotti",
+      "Punteggio delle valutazioni dei prodotti"
+    ],
+    "risposta_corretta": "Punteggio delle valutazioni dei prodotti",
+    "spiegazione": "Il punteggio è un valore numerico ben definito e quindi strutturato; testi e immagini sono invece dati semi o non strutturati."
+  },
+  {
+    "id": 21,
+    "domanda": "Un negozio al dettaglio ha scoperto una soluzione economica per creare chioschi self-service. Può utilizzare l'hardware di cassa esistente e acquistare un'applicazione di assistenza clienti virtuale. Perché hanno bisogno di un'API?",
+    "opzioni": [
+      "Per migrare tutti i dati dei clienti per il disaster recovery.",
+      "Per collegare l'hardware di check-out al cloud pubblico.",
+      "Per aggiornare l'hardware delle casse in remoto.",
+      "Per collegare la nuova applicazione al sistema preesistente."
+    ],
+    "risposta_corretta": "Per collegare la nuova applicazione al sistema preesistente.",
+    "spiegazione": "Un’API permette all’app di assistenza virtuale di dialogare con il vecchio POS, riutilizzando periferiche e database senza cambiamenti profondi."
+  },
+  {
+    "id": 22,
+    "domanda": "Vuoi inviare e ricevere messaggi tra i componenti dell'applicazione distribuiti. Quale servizio dovresti usare?",
+    "opzioni": [
+      "Amazon ElastiCache",
+      "Amazon Route 53",
+      "AWS Snowball",
+      "Amazon SQS"
+    ],
+    "risposta_corretta": "Amazon SQS",
+    "spiegazione": "Amazon Simple Queue Service è un message broker fully managed che decupla i microservizi tramite code affidabili e scalabili."
+  },
+  {
+    "id": 23,
+    "domanda": "Un'organizzazione vuole adattare dinamicamente la propria applicazione per soddisfare le diverse esigenze degli utenti. Quali sono i vantaggi dell'archiviazione dei dati nel cloud per questo caso d'uso?",
+    "opzioni": [
+      "Pulizia e convalida automatica dei dati",
+      "I dati possono essere archiviati per un accesso a lungo termine.",
+      "Ingestione e analisi dei dati in tempo reale",
+      "Non è richiesta la gestione dell'accesso ai dati"
+    ],
+    "risposta_corretta": "Ingestione e analisi dei dati in tempo reale",
+    "spiegazione": "Servizi come BigQuery, Kinesis, Event Hub permettono streaming e analytics in tempo reale per personalizzare l’esperienza utente al volo."
+  },
+  {
+    "id": 24,
+    "domanda": "Quale strategia di migrazione comporta la modifica del modo in cui un'applicazione viene progettata e sviluppata, in genere utilizzando funzionalità native per il cloud?",
+    "opzioni": [
+      "Repurchasing",
+      "Replatforming",
+      "Rehosting",
+      "Refactoring"
+    ],
+    "risposta_corretta": "Refactoring",
+    "spiegazione": "Refactoring (o re-architecting) implica riscrivere parti dell’app per sfruttare servizi serverless, microservizi e scalabilità orizzontale nativa del cloud."
+  },
+  {
+    "id": 25,
+    "domanda": "Quale azione è possibile eseguire in Amazon CloudFront?",
+    "opzioni": [
+      "Effettuare il provisioning di una sezione isolata del cloud AWS per lanciare risorse in una rete virtuale definita dall'utente.",
+      "Eseguire l'infrastruttura con un approccio al cloud ibrido.",
+      "Effettuare il provisioning delle risorse utilizzando linguaggi di programmazione o un file di testo.",
+      "Distribuire contenuti ai clienti attraverso una rete globale di edge location."
+    ],
+    "risposta_corretta": "Distribuire contenuti ai clienti attraverso una rete globale di edge location.",
+    "spiegazione": "CloudFront è un CDN che replica contenuti statici e dinamici in oltre 400 edge location per ridurre la latenza verso gli utenti finali."
+  },
+  {
+    "id": 26,
+    "domanda": "Quale affermazione descrive meglio Elastic Load Balancing?",
+    "opzioni": [
+      "Un servizio che fornisce dati che è possibile utilizzare per monitorare le applicazioni, ottimizzare l'utilizzo delle risorse e rispondere alle modifiche delle prestazioni a livello di sistema",
+      "Un servizio che consente di configurare, gestire e dimensionare un ambiente in memoria o cache distribuito nel cloud",
+      "Un servizio che distribuisce il traffico in entrata su più destinazioni, come le istanze Amazon EC2",
+      "Un servizio che monitora le applicazioni e aggiunge o rimuove automaticamente la capacity dai gruppi di risorse in risposta all'evoluzione della domanda"
+    ],
+    "risposta_corretta": "Un servizio che distribuisce il traffico in entrata su più destinazioni, come le istanze Amazon EC2",
+    "spiegazione": "ELB bilancia il carico HTTP(S), TCP o UDP tra le istanze sane, migliorando fault-tolerance e scalabilità."
+  },
+  {
+    "id": 27,
+    "domanda": "Un'organizzazione ha server Web in aree diverse e vuole ottimizzarne la disponibilità. Quale delle opzioni di sicurezza di rete è più adatta a questo scopo?",
+    "opzioni": [
+      "Azure Load Balancer",
+      "Azure Application Gateway",
+      "Azure Monitor",
+      "Azure Frontdoor"
+    ],
+    "risposta_corretta": "Azure Frontdoor",
+    "spiegazione": "Front Door è un CDN + load balancer globale con WAF integrato che instrada il traffico sulla regione più vicina e disponibile."
+  },
+  {
+    "id": 28,
+    "domanda": "Un'organizzazione vuole implementare un flusso di lavoro serverless per risolvere un problema aziendale. Uno dei requisiti è che la soluzione debba usare un modello di sviluppo dichiarativo. Quale delle scelte seguenti soddisfa i requisiti?",
+    "opzioni": [
+      "WebJobs",
+      "Azure Functions",
+      "Azure Container Apps",
+      "Azure Logic Apps"
+    ],
+    "risposta_corretta": "Azure Logic Apps",
+    "spiegazione": "Logic Apps si basa su un linguaggio dichiarativo (JSON) con designer visivo: si definiscono flussi senza scrivere codice imperativo."
+  },
+  {
+    "id": 29,
+    "domanda": "Quale tra le seguenti categorie dei piani di App Service offre le funzionalità massime di scale-out?",
+    "opzioni": [
+      "Calcolo condiviso",
+      "Calcolo isolato",
+      "Calcolo dedicato",
+      "Calcolo ad alte prestazioni"
+    ],
+    "risposta_corretta": "Calcolo isolato",
+    "spiegazione": "Il piano Isolato (Ambiente del Servizio App) offre fino a 100 istanze, rete virtuale dedicata e scaling illimitato rispetto agli altri piani."
+  },
+  {
+    "id": 30,
+    "domanda": "In quanti gruppi di risorse può essere presente una risorsa contemporaneamente?",
+    "opzioni": [
+      "Molti",
+      "Nessuno",
+      "Uno",
+      "Al più tre"
+    ],
+    "risposta_corretta": "Uno",
+    "spiegazione": "In Azure ogni risorsa può appartenere a un solo resource group; per spostarla in un altro gruppo occorre effettuare una migrazione."
+  },
+  {
+    "id": 31,
+    "domanda": "Un'organizzazione attualmente archivia i propri dati in sede e riceve diversi livelli di traffico sul proprio sito web ogni mese. In che modo l'organizzazione potrebbe trarre vantaggio dalla modernizzazione dell'infrastruttura con la tecnologia cloud?",
+    "opzioni": [
+      "Disponibilità del servizio al 100%.",
+      "Possono passare da una forte spesa operativa a un modello di spesa in conto capitale.",
+      "Possono affidarsi al provider cloud per tutto il codice sorgente del sito web.",
+      "Scalabilità agile dello storage."
+    ],
+    "risposta_corretta": "Scalabilità agile dello storage.",
+    "spiegazione": "Object storage cloud scala automaticamente in base al traffico, eliminando la necessità di acquistare NAS/SAN aggiuntivi."
+  },
+  {
+    "id": 32,
+    "domanda": "Quale servizio consente di consolidare e gestire più account AWS da un unico posto?",
+    "opzioni": [
+      "AWS Identity and Access Management (IAM)",
+      "AWS Organizations",
+      "AWS Key Management Service (AWS KMS)",
+      "AWS Artifact"
+    ],
+    "risposta_corretta": "AWS Organizations",
+    "spiegazione": "AWS Organizations permette di creare Organizational Units, applicare SCP e centralizzare billing e compliance su centinaia di account."
+  },
+  {
+    "id": 33,
+    "domanda": "Un'organizzazione vuole scalare l'architettura di macchine virtuali esistente il più rapidamente possibile. Perché l'organizzazione dovrebbe utilizzare VMware Engine?",
+    "opzioni": [
+      "Per distribuire API personalizzate senza problemi.",
+      "Per riformattare le macchine virtuali così come sono.",
+      "Per archiviare istanze di macchine virtuali.",
+      "Per migrare le macchine virtuali ai container."
+    ],
+    "risposta_corretta": "Per riformattare le macchine virtuali così come sono.",
+    "spiegazione": "Google Cloud VMware Engine esegue vSphere nativo: si possono spostare VM locali in GCP senza ricostruirle o convertirle."
+  },
+  {
+    "id": 34,
+    "domanda": "Una banca vuole monitorare il successo della rete di sportelli automatici esistente, che è stata modernizzata con API per notificare istantaneamente ai clienti i loro trasferimenti. Qual è il vantaggio di utilizzare Apigee per raggiungere questo obiettivo?",
+    "opzioni": [
+      "Permette agli sviluppatori di collegare le API bancarie al cloud pubblico.",
+      "Misura e traccia il costo totale di proprietà (TCO).",
+      "Dispone di dashboard che tracciano dimensioni e metriche per la reportistica sulle API.",
+      "Replica le API bancarie per creare nuovo valore aziendale."
+    ],
+    "risposta_corretta": "Dispone di dashboard che tracciano dimensioni e metriche per la reportistica sulle API.",
+    "spiegazione": "Apigee fornisce analytics in tempo reale su latenza, errori e traffico delle API, permettendo di monitorare l’efficacia del sistema ATM."
+  },
+  {
+    "id": 35,
+    "domanda": "Una grande organizzazione ha difficoltà a gestire in modo efficace i costi del cloud. Vuole aumentare la visibilità dei costi del cloud. Quale approccio di gestione dei costi dovrebbe utilizzare l'organizzazione?",
+    "opzioni": [
+      "Rivedere tutte le spese cloud che superano il budget di errore dell'organizzazione.",
+      "Nominare un'unica persona per monitorare la spesa cloud in tutta l'organizzazione.",
+      "Aumentare il monitoraggio dell'infrastruttura e dei servizi on-premises.",
+      "Stabilire una partnership tra i team finanziari, tecnologici e aziendali."
+    ],
+    "risposta_corretta": "Stabilire una partnership tra i team finanziari, tecnologici e aziendali.",
+    "spiegazione": "Il FinOps promuove un team cross-funzionale che definisce budget, tag e policy, rendendo tutti responsabili della spesa cloud."
+  },
+  {
+    "id": 36,
+    "domanda": "È necessario assegnare criteri ed esaminare i budget di spesa in diverse sottoscrizioni gestite. Cosa deve essere creato per le sottoscrizioni?",
+    "opzioni": [
+      "Un gruppo di risorse",
+      "Un gruppo di gestione",
+      "Un gruppo di fatturazione",
+      "Un gruppo di risorse annidato"
+    ],
+    "risposta_corretta": "Un gruppo di gestione",
+    "spiegazione": "I management groups consentono di applicare policy e budget a livello gerarchico su più sottoscrizioni senza ripetere configurazioni."
+  },
+  {
+    "id": 37,
+    "domanda": "Un responsabile vuole maggiori informazioni sulle chiavi protette da software e sulle chiavi protette da hardware.",
+    "opzioni": [
+      "Le chiavi protette da software non sono isolate dall'applicazione",
+      "Le operazioni di crittografia protette da software vengono eseguite nel software e le operazioni di crittografia protette da hardware vengono eseguite all'interno del modulo di protezione hardware",
+      "Solo le chiavi inattive protette da hardware vengono crittografate",
+      "Nessuna differenza"
+    ],
+    "risposta_corretta": "Le operazioni di crittografia protette da software vengono eseguite nel software e le operazioni di crittografia protette da hardware vengono eseguite all'interno del modulo di protezione hardware",
+    "spiegazione": "HSM (Hardware Security Module) offre isolamento fisico e tamper-resistance, mentre le chiavi software risiedono in memoria del sistema operativo."
+  },
+  {
+    "id": 38,
+    "domanda": "Un'organizzazione vuole cercare e condividere componenti AI plug-and-play che permettano di integrare facilmente i servizi di ML nel proprio progetto. Quale prodotto Google Cloud dovrebbe utilizzare l'organizzazione?",
+    "opzioni": [
+      "Cloud Talent Solution",
+      "AI Hub",
+      "Recommendations AI",
+      "Document AI"
+    ],
+    "risposta_corretta": "AI Hub",
+    "spiegazione": "AI Hub è un repository collaborativo di notebook, modelli TensorFlow e pipeline Kubeflow pronti all’uso e condivisibili tra team."
+  },
+  {
+    "id": 39,
+    "domanda": "Un'organizzazione ha migrato completamente tutta la propria infrastruttura nel cloud per beneficiare della sua agilità. Ora vuole innovare più velocemente e ottenere un maggiore ritorno sugli investimenti. Cosa dovrebbe fare l'organizzazione?",
+    "opzioni": [
+      "Eseguire il provisioning manuale di tutta l'infrastruttura cloud per ottenere un maggiore controllo.",
+      "Passare a un'architettura ibrida con una parte dell'infrastruttura on-premise.",
+      "Modernizzare le applicazioni.",
+      "Ridurre l'obiettivo del livello di servizio (SLO)"
+    ],
+    "risposta_corretta": "Modernizzare le applicazioni.",
+    "spiegazione": "Modernizzare (container, serverless, microservizi) abilita il continuous delivery, riduce il time-to-market e aumenta il ROI."
+  },
+  {
+    "id": 40,
+    "domanda": "Che cos'è una revisione in Azure Container Apps?",
+    "opzioni": [
+      "Versione della Container App attualmente in uso",
+      "Snapshot dinamico di una versione della Container App",
+      "Snapshot non modificabile di una versione della Container App",
+      "Definizione di una Container App"
+    ],
+    "risposta_corretta": "Snapshot non modificabile di una versione della Container App",
+    "spiegazione": "Una revisione è l’immagine immutabile (container + configurazione) creata ad ogni deployment; può essere rollbackata in qualsiasi momento."
+  },
+  {
+    "id": 41,
+    "domanda": "Quale strumento viene utilizzato per automatizzare le azioni per i servizi e le applicazioni AWS tramite script?",
+    "opzioni": [
+      "Amazon Redshift",
+      "AWS Command Line Interface",
+      "AWS Bash",
+      "AWS Snowball"
+    ],
+    "risposta_corretta": "AWS Command Line Interface",
+    "spiegazione": "AWS CLI è lo strumento cross-platform che consente di richiamare ogni API AWS da shell e script, automatizzando deployment e operazioni."
+  },
+  {
+    "id": 42,
+    "domanda": "Quale delle funzionalità avanzate di Azure Service Bus permette di avere garanzie FIFO (First-In, First Out)?",
+    "opzioni": [
+      "Recapito pianificato",
+      "Sessioni",
+      "Transazioni",
+      "Accodamento"
+    ],
+    "risposta_corretta": "Sessioni",
+    "spiegazione": "Le sessioni garantisceo l’ordine di elaborazione dei messaggi all’interno di una stessa sessione, realizzando la semantica FIFO."
+  },
+  {
+    "id": 43,
+    "domanda": "Vuoi che Amazon S3 monitori i pattern di accesso ai tuoi oggetti. Quale classe di archiviazione utilizzare?",
+    "opzioni": [
+      "S3 One Zone-Infrequent Access",
+      "S3 Glacier",
+      "S3 Standard-Infrequent Access",
+      "S3 Intelligent-Tiering"
+    ],
+    "risposta_corretta": "S3 Intelligent-Tiering",
+    "spiegazione": "Intelligent-Tiering sposta automaticamente gli oggetti tra tier frequent/infrequent/archive in base all’effettivo accesso, ottimizzando i costi senza intervento manuale."
+  },
+  {
+    "id": 44,
+    "domanda": "I revisori devono essere certi che i dati sensibili del database rimangano sempre crittografati quando sono inattivi, in transito e in uso. Per garantire ai revisori che questa operazione venga eseguita, quale delle funzionalità seguenti viene configurata?",
+    "opzioni": [
+      "Always Encrypted",
+      "Dynamic Data Masking",
+      "Classificazione dei dati",
+      "Advanced Threat Protection"
+    ],
+    "risposta_corretta": "Always Encrypted",
+    "spiegazione": "Always Encrypted mantiene i dati cifrati anche in memoria del DBMS; le operazioni avvengono sul client-side con chiavi non accessibile al server."
+  },
+  {
+    "id": 45,
+    "domanda": "Quale ruolo di Microsoft Entra è necessario per abilitare Microsoft Entra Privileged Identity Management per la propria directory?",
+    "opzioni": [
+      "Amministratore di Privileged Identity Management",
+      "Coamministratore",
+      "Amministratore di Office 365",
+      "Amministratore globale"
+    ],
+    "risposta_corretta": "Amministratore globale",
+    "spiegazione": "Solo il Global Administrator può attivare PIM e gestire le assegnazioni di ruolo con privilegi elevati."
+  },
+  {
+    "id": 46,
+    "domanda": "Quale servizio di Azure consente agli utenti di usare una versione di Windows ospitata nel cloud da qualsiasi posizione e connettersi dalla maggior parte dei browser moderni?",
+    "opzioni": [
+      "Azure Remote Desktop",
+      "Azure Container Instances",
+      "Azure Virtual Desktop",
+      "Azure Virtual Machines"
+    ],
+    "risposta_corretta": "Azure Virtual Desktop",
+    "spiegazione": "AVD fornisce desktop Windows 10/11 multi-sessione accessibile via HTML5 da qualsiasi browser, con licenza Windows inclusa."
+  },
+  {
+    "id": 47,
+    "domanda": "Un'organizzazione vuole limitare il traffico Internet in uscita da una subnet. Quale servizio deve essere configurato?",
+    "opzioni": [
+      "Azure Load Balancer",
+      "Azure Web Application Firewall",
+      "Azure Firewall",
+      "Azure Network Virtual Appliance"
+    ],
+    "risposta_corretta": "Azure Firewall",
+    "spiegazione": "Azure Firewall è un NaaS con stateful layer-4/7 che filtra il traffico in uscita (URL, FQDN, threat-intel) a livello di VNet/subnet."
+  },
+  {
+    "id": 48,
+    "domanda": "Un'organizzazione vuole misurare tutto nell'ambito della sua nuova filosofia DevOps. Cosa dovrà monitorare?",
+    "opzioni": [
+      "L'affidabilità e la salute dei sistemi.",
+      "La velocità del processo di adozione del cloud.",
+      "La soddisfazione e la felicità dei dipendenti.",
+      "Il rischio e la ricompensa dei propri investimenti."
+    ],
+    "risposta_corretta": "L'affidabilità e la salute dei sistemi.",
+    "spiegazione": "I principi DORA/ELT di DevOps privilegiano metriche di uptime, error budget e change failure rate per valutare la salute dei servizi."
+  },
+  {
+    "id": 49,
+    "domanda": "Quale servizio ti consente di esaminare i dettagli delle attività degli utenti e delle chiamate API che si sono verificate nel tuo ambiente AWS?",
+    "opzioni": [
+      "Amazon CloudWatch",
+      "AWS Trusted Advisor",
+      "Amazon Inspector",
+      "AWS CloudTrail"
+    ],
+    "risposta_corretta": "AWS CloudTrail",
+    "spiegazione": "CloudTrail registra ogni chiamata API (who, what, when, IP) in log immutabili per audit, compliance e forensics."
+  },
+  {
+    "id": 50,
+    "domanda": "La tua applicazione gestisce dati estremamente critici ed ha bisogno di garanzie massime. Quale tipo di archiviazione offre il massimo grado di durabilità?",
+    "opzioni": [
+      "Archiviazione con ridondanza geografica della zona",
+      "Archiviazione con ridondanza globale",
+      "Archiviazione con ridondanza della zona",
+      "Archiviazione con ridondanza locale"
+    ],
+    "risposta_corretta": "Archiviazione con ridondanza geografica della zona",
+    "spiegazione": "GRS replica in una regione secondaria a centinaia di km; la variante GZRS aggiunge la replica zonale, offrendo 99.99999999999999% di durabilità."
+  },
+  {
+    "id": 51,
+    "domanda": "Quale dei protocolli di sicurezza seguenti è supportato da Microsoft Entra ID?",
+    "opzioni": [
+      "Kerberos",
+      "OpenID Connect",
+      "OAuth 2.0",
+      "IPsec"
+    ],
+    "risposta_corretta": "OAuth 2.0",
+    "spiegazione": "Microsoft Entra ID usa OAuth 2.0 per flussi di autorizzazione moderni (es. client credentials, authorization code) e OpenID Connect per autenticazione; Kerberos è legacy on-prem."
+  },
+  {
+    "id": 52,
+    "domanda": "Quale affermazione descrive meglio una zona di disponibilità?",
+    "opzioni": [
+      "Un'area geografica separata con più località isolate l'una dall'altra",
+      "Una parte completamente isolata dell'infrastruttura globale AWS",
+      "Un sito utilizzato da Amazon CloudFront per memorizzare nella cache copie di contenuti per una distribuzione più rapida agli utenti in qualsiasi luogo",
+      "Il server da cui Amazon CloudFront riceve i file"
+    ],
+    "risposta_corretta": "Una parte completamente isolata dell'infrastruttura globale AWS",
+    "spiegazione": "Una Availability Zone è un data center (o cluster) isolato all’interno di una Region; le AZ sono collegate da rete a bassa latenza ma con failure domain separate."
+  },
+  {
+    "id": 53,
+    "domanda": "Un'organizzazione vuole passare da un livello di maturità strategico di adozione del cloud a uno trasformazionale. Come dovrebbe cambiare il modo in cui l'organizzazione scala?",
+    "opzioni": [
+      "Distribuire le modifiche quando sorgono problemi.",
+      "Rivedere le modifiche manualmente.",
+      "Distribuire le modifiche in modo programmatico."
+    ],
+    "risposta_corretta": "Distribuire le modifiche in modo programmatico.",
+    "spiegazione": "La maturità trasformazionale richiede Infrastructure-as-Code, CI/CD e deployment automatici per ridurre il time-to-market e aumentare l’affidabilità."
+  },
+  {
+    "id": 54,
+    "domanda": "Quale affermazione è VERA per AWS Lambda?",
+    "opzioni": [
+      "Paghi solo per il tempo di calcolo mentre il codice è in esecuzione.",
+      "Per utilizzare AWS Lambda, è necessario configurare i server che eseguono il codice.",
+      "Il primo passo nell'utilizzo di AWS Lambda è il provisioning di un server.",
+      "Prima di utilizzare AWS Lambda, è necessario pagare in anticipo il tempo di calcolo stimato."
+    ],
+    "risposta_corretta": "Paghi solo per il tempo di calcolo mentre il codice è in esecuzione.",
+    "spiegazione": "Lambda è serverless: il costo è calcolato su millisecondi di esecuzione e numero di invocazioni, senza server da gestire o pre-pagare."
+  },
+  {
+    "id": 55,
+    "domanda": "Quali tipi di identità gestite è possibile creare?",
+    "opzioni": [
+      "Assegnata dal sistema e assegnata dall'utente",
+      "Assegnata dall'applicazione e assegnata dalla macchina virtuale",
+      "Tutte le precedenti",
+      "Assegnata dal database e non firmate"
+    ],
+    "risposta_corretta": "Assegnata dal sistema e assegnata dall'utente",
+    "spiegazione": "Azure Managed Identity offre due tipi: system-assigned (legata alla vita della risorsa) e user-assigned (stand-alone e riutilizzabile)."
+  },
+  {
+    "id": 56,
+    "domanda": "Un'applicazione in App Service archivia dati in uno storage account di Azure. L'app deve eseguire l'autenticazione a livello di codice, cosa è necessario configurare?",
+    "opzioni": [
+      "Un'assegnazione di ruolo in controllo degli accessi in base al ruolo",
+      "Un utente di sistema Microsoft Entra",
+      "Autenticazione tramite browser",
+      "Un'identità gestita"
+    ],
+    "risposta_corretta": "Un'identità gestita",
+    "spiegazione": "Assegnando un’identità gestita all’App Service si ottiene un token OAuth 2.0 senza gestire segreti, permettendo l’accesso sicuro al Blob Storage."
+  },
+  {
+    "id": 57,
+    "domanda": "I dati raccolti da Azure Monitor rientrano in uno dei due tipi fondamentali. Quali sono questi tipi?",
+    "opzioni": [
+      "Metriche e alert",
+      "Record e trigger",
+      "Eventi e avvisi",
+      "Log e metriche"
+    ],
+    "risposta_corretta": "Log e metriche",
+    "spiegazione": "Azure Monitor divide i dati in metriche (numeriche, ad alta frequenza) e log (testuali strutturati) per analytics e alert."
+  },
+  {
+    "id": 58,
+    "domanda": "Quale servizio viene utilizzato per trasferire fino a 100 PB di dati in AWS?",
+    "opzioni": [
+      "Amazon CloudFront",
+      "AWS DeepRacer",
+      "AWS Snowmobile",
+      "Amazon Neptune"
+    ],
+    "risposta_corretta": "AWS Snowmobile",
+    "spiegazione": "Snowmobile è un truck-container da 45/100 PB che si porta fisicamente nel data center per il trasferimento di esabyte di dati."
+  },
+  {
+    "id": 59,
+    "domanda": "Quando si distribuisce Azure Application Gateway ed è necessario garantire che le richieste in ingresso siano esaminate per individuare eventuali minacce alla sicurezza, come cross-site scripting, cosa bisogna configurare?",
+    "opzioni": [
+      "Azure Network Virtual Appliance",
+      "Azure Web Application Firewall",
+      "Azure Firewall",
+      "Azure Load Balancer"
+    ],
+    "risposta_corretta": "Azure Web Application Firewall",
+    "spiegazione": "WAF in Application Gateway applica regole OWASP Core Rule Set contro XSS, SQLi, CSRF, ecc., proteggendo le applicazioni web."
+  },
+  {
+    "id": 60,
+    "domanda": "Quali problemi possono sorgere quando le organizzazioni integrano sistemi di terze parti nella propria infrastruttura cloud?",
+    "opzioni": [
+      "Senza misure di sicurezza sufficienti e controlli regolari, i sistemi di terze parti non protetti possono rappresentare una minaccia per la sicurezza dei dati.",
+      "I sistemi di terze parti sono meno in grado di soddisfare i requisiti di sicurezza dell'organizzazione.",
+      "I sistemi di terze parti potrebbero non essere abbastanza potenti per eseguire molte applicazioni cloud.",
+      "L'eccessiva dipendenza da sistemi di terze parti limita il potenziale di innovazione di un'organizzazione."
+    ],
+    "risposta_corretta": "Senza misure di sicurezza sufficienti e controlli regolari, i sistemi di terze parti non protetti possono rappresentare una minaccia per la sicurezza dei dati.",
+    "spiegazione": "Se le API o le credenziali di terze parti non sono adeguatamente protette, diventano vettori di attacco per l’intera catena di fornitura."
+  },
+  {
+    "id": 61,
+    "domanda": "Quale componente di cloud privato virtuale (VPC) controlla il traffico in entrata e in uscita per le istanze Amazon EC2?",
+    "opzioni": [
+      "Lista di controllo degli accessi di rete (NACL)",
+      "Gateway internet",
+      "Sottorete",
+      "Gruppo di sicurezza"
+    ],
+    "risposta_corretta": "Gruppo di sicurezza",
+    "spiegazione": "I Security Groups agiscono come firewall virtuali a livello di istanza, definendo regole stateful per porte e protocolli."
+  },
+  {
+    "id": 62,
+    "domanda": "Qual è lo scopo di un criterio di riavvio in Azure Container Instances?",
+    "opzioni": [
+      "Per specificare quando e se riavviare i container",
+      "Per assicurarsi che i container non vengano mai riavviati, anche se il processo ha esito negativo",
+      "Per specificare più risorse di calcolo per l'esecuzione del container",
+      "Per specificare come riavviare i container"
+    ],
+    "risposta_corretta": "Per specificare quando e se riavviare i container",
+    "spiegazione": "Il restart policy (Always, OnFailure, Never) determina il comportamento in caso di exit code non zero, bilanciando disponibilità e costi."
+  },
+  {
+    "id": 68,
+    "domanda": "Quale dei componenti della piattaforma Microsoft 365 viene usato per distribuire dati esterni all'interno di Microsoft Graph?",
+    "opzioni": [
+      "Microsoft Graph Connectors",
+      "Microsoft Graph API",
+      "Microsoft Graph Data Connect",
+      "Microsoft Graph SDK"
+    ],
+    "risposta_corretta": "Microsoft Graph Connectors",
+    "spiegazione": "I connettori indicizzano contenuti di terze parti (file share, CRM, SAP) nel grafo, rendendoli ricercabili in Microsoft 365."
+  }
+]
