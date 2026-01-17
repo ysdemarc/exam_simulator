@@ -196,7 +196,7 @@ async function loadAvailableExams() {
 		if (!response.ok) throw new Error("File index.json non trovato");
         const examFiles = await response.json();
         
-        jsonSelect.innerHTML = '<option value="">Seleziona un esame...</option>';
+        jsonSelect.innerHTML = '';
         
         examFiles.forEach(file => {
             const option = document.createElement('option');
