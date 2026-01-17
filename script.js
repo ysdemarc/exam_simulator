@@ -191,8 +191,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 async function loadAvailableExams() {
-    try {
-        const response = await fetch('data/index.json');
+    try {        
+		const response = await fetch('data/index.json');
+		if (!response.ok) throw new Error("File index.json non trovato");
         const examFiles = await response.json();
         
         jsonSelect.innerHTML = '<option value="">Seleziona un esame...</option>';
@@ -205,11 +206,14 @@ async function loadAvailableExams() {
         });
         
         jsonSelect.disabled = false;
+		updateThreshold();
     } catch (error) {
         console.error('Error loading exams:', error);
         jsonSelect.innerHTML = '<option value="">Errore caricamento</option>';
     }
 }
+
+
 
 function formatExamName(filename) {
     return filename
