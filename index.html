@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud Simulator Pro</title>
+    <title>Exam Simulator</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -12,37 +12,33 @@
     <div class="app-container">
         
         <div id="start-screen" class="card fade-in">
-            <h1>Simulatore Esami Cloud</h1>
-            <p class="subtitle">Configura la tua sessione di studio</p>
+            <h1>Exam Simulator</h1>
+            <p class="subtitle">Configura la tua sessione</p>
 
             <div class="config-grid">
                 <div class="config-item">
-                    <label>Seleziona Database:</label>
-                    <select id="json-select">
-                        <option value="data/cloud_exam.json">Esame Cloud Base</option>
-                        <option value="data/azure_az900.json">Azure AZ-900</option>
-                        <option value="data/aws_practitioner.json">AWS Practitioner</option>
-                    </select>
+                    <label>Seleziona Quiz:</label>
+                    <select id="json-select"></select>
                 </div>
 
                 <div class="config-item">
-                    <label>Numero Domande:</label>
+                    <label>Quante domande vuoi?</label>
                     <select id="count-select">
                         <option value="10">10 domande</option>
-                        <option value="20" selected>20 domande</option>
+                        <option value="20">20 domande</option>
                         <option value="30">30 domande</option>
                         <option value="50">50 domande</option>
-                        <option value="all">Tutte</option>
+                        <option value="all">Tutte le domande</option>
                     </select>
                 </div>
 
                 <div class="config-item">
-                    <label>Soglia Superamento:</label>
-                    <input type="number" id="threshold-input" value="12" min="1" max="50">
+                    <label>Soglia Superamento (Min <span id="min-hint"></span>):</label>
+                    <input type="number" id="threshold-input">
                 </div>
             </div>
 
-            <button id="start-btn" class="btn-primary">Inizia Esame</button>
+            <button id="start-btn" class="btn-primary">Inizia Simulazione</button>
         </div>
 
         <div id="quiz-screen" class="hidden">
@@ -51,23 +47,21 @@
             </div>
             
             <div class="header-stats">
-                <span id="question-counter">Domanda 1/20</span>
-                <span id="score-counter">Punteggio: 0</span>
+                <span id="question-counter">Domanda 1</span>
+                <span id="score-counter">Corrette: 0</span>
             </div>
 
-            <div class="card" id="question-card">
-                <h2 id="question-text">Caricamento...</h2>
+            <div class="card">
+                <h2 id="question-text"></h2>
                 <div id="options-container" class="options-grid"></div>
             </div>
 
             <div class="nav-controls">
                 <button id="prev-btn" class="btn-secondary">Indietro</button>
-                <button id="next-btn" class="btn-primary hidden">Prossima</button>
-            </div>
+                <div id="next-container"></div> </div>
 
             <div id="feedback-area" class="feedback-box hidden">
                 <div class="feedback-header">
-                    <span id="feedback-icon"></span>
                     <strong id="feedback-title"></strong>
                 </div>
                 <p id="feedback-text"></p>
@@ -75,19 +69,18 @@
         </div>
 
         <div id="result-screen" class="card hidden">
-            <div id="result-icon"></div>
-            <h1 id="result-title">Esame Completato</h1>
+            <h1 id="result-title"></h1>
             <div class="score-display">
-                <span id="final-score">0</span> / <span id="total-possible">20</span>
+                <span id="final-score">0</span> / <span id="total-possible">0</span>
             </div>
             <p id="result-message"></p>
             
             <div id="review-container">
-                <h3>Riepilogo Risposte</h3>
+                <h3>Dettaglio Risposte</h3>
                 <div id="review-list"></div>
             </div>
 
-            <button onclick="resetApp()" class="btn-primary" style="margin-top: 2rem;">Nuova Simulazione</button>
+            <button onclick="location.reload()" class="btn-primary" style="margin-top: 2rem;">Nuova Simulazione</button>
         </div>
 
     </div>
