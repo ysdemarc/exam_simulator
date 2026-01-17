@@ -1,176 +1,380 @@
-let allQuestions = [];
-let sessionQuestions = [];
-let userAnswers = []; // Salva la stringa della risposta data dall'utente
-let currentIndex = 0;
+// Application State
+let currentQuestions = [];
+let currentQuestionIndex = 0;
 let score = 0;
-let passingThreshold = 16;
+let userAnswers = [];
+let threshold = 16;
+let totalQuestions = 20;
+let quizData = [];
 
-// Elementi DOM
+// DOM Elements
+const startScreen = document.getElementById('start-screen');
+const quizScreen = document.getElementById('quiz-screen');
+const resultScreen = document.getElementById('result-screen');
 const jsonSelect = document.getElementById('json-select');
-const countSelect = document.getElementById('count-select');
-const thresholdInput = document.getElementById('threshold-input');
+const questionCountSelect = document.getElementById('question-count');
+const thresholdInput = document.getElementById('threshold');
+const thresholdHelp = document.getElementById('threshold-help');
 
-// 1. Caricamento nomi file da index.json
-async function loadConfig() {
+// Initialize application
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadAvailableExams();
+    setupEventListeners();
+});
+
+async function loadAvailableExams() {
     try {
         const response = await fetch('data/index.json');
-        const files = await response.json();
-        jsonSelect.innerHTML = '';
-        files.forEach(file => {
-            const opt = document.createElement('option');
-            opt.value = `data/${file}`;
-            opt.textContent = file.replace('.json', '').replace(/_/g, ' ').toUpperCase();
-            jsonSelect.appendChild(opt);
-        });
-        updateThresholdLimits();
-    } catch (e) {
-        console.error("Errore: Assicurati che data/index.json esista.");
-    }
-}
-
-// 2. Calcolo automatico soglia 80% e limiti
-function updateThresholdLimits() {
-    // Valore fittizio se 'all' è selezionato prima del caricamento (assumiamo 50 come base)
-    const numDomande = countSelect.value === 'all' ? 50 : parseInt(countSelect.value);
-    
-    const defaultThreshold = Math.ceil(numDomande * 0.8);
-    const minThreshold = Math.ceil(numDomande / 2);
-
-    thresholdInput.value = defaultThreshold;
-    thresholdInput.min = minThreshold;
-    thresholdInput.max = numDomande;
-    document.getElementById('min-threshold').textContent = minThreshold;
-    document.getElementById('max-threshold').textContent = numDomande;
-}
-
-countSelect.addEventListener('change', updateThresholdLimits);
-window.onload = loadConfig;
-
-// 3. Inizio Esame
-async function startExam() {
-    try {
-        const response = await fetch(jsonSelect.value);
-        allQuestions = await response.json();
+        const examFiles = await response.json();
         
-        let limit = countSelect.value === 'all' ? allQuestions.length : parseInt(countSelect.value);
-        if (limit > allQuestions.length) limit = allQuestions.length;
-
-        passingThreshold = parseInt(thresholdInput.value);
-        sessionQuestions = shuffleArray([...allQuestions]).slice(0, limit);
-        userAnswers = new Array(sessionQuestions.length).fill(null);
-        currentIndex = 0;
-
-        document.getElementById('start-screen').classList.add('hidden');
-        document.getElementById('quiz-screen').classList.remove('hidden');
-        renderQuestion();
-    } catch (e) {
-        alert("Errore nel caricamento del file JSON.");
+        jsonSelect.innerHTML = '<option value="">Seleziona un esame...</option>';
+        
+        examFiles.forEach(file => {
+            const option = document.createElement('option');
+            option.value = file;
+            option.textContent = formatExamName(file);
+            jsonSelect.appendChild(option);
+        });
+        
+        jsonSelect.disabled = false;
+    } catch (error) {
+        console.error('Error loading exams:', error);
+        jsonSelect.innerHTML = '<option value="">Errore caricamento</option>';
     }
 }
 
-document.getElementById('start-btn').addEventListener('click', startExam);
+function formatExamName(filename) {
+    return filename
+        .replace('.json', '')
+        .replace(/_/g, ' ')
+        .toUpperCase();
+}
 
-// 4. Visualizzazione Domanda
-function renderQuestion() {
-    const q = sessionQuestions[currentIndex];
-    const savedAnswer = userAnswers[currentIndex];
-    
-    document.getElementById('question-text').textContent = q.domanda;
-    document.getElementById('question-counter').textContent = `Domanda ${currentIndex + 1}/${sessionQuestions.length}`;
-    document.getElementById('progress-bar').style.width = `${((currentIndex + 1) / sessionQuestions.length) * 100}%`;
-    
-    const optionsContainer = document.getElementById('options-container');
-    const feedbackArea = document.getElementById('feedback-area');
-    const nextBtnContainer = document.getElementById('next-btn-container');
-    const prevBtn = document.getElementById('prev-btn');
+function setupEventListeners() {
+    jsonSelect.addEventListener('change', handleExamSelection);
+    questionCountSelect.addEventListener('change', updateThreshold);
+    thresholdInput.addEventListener('input', validateThreshold);
+    document.getElementById('start-btn').addEventListener('click', startGame);
+    document.getElementById('prev-btn').addEventListener('click', previousQuestion);
+    document.getElementById('next-btn').addEventListener('click', nextQuestion);
+    document.getElementById('continue-btn').addEventListener('click', continueQuiz);
+    document.getElementById('restart-btn').addEventListener('click', restartQuiz);
+}
 
-    optionsContainer.innerHTML = '';
-    nextBtnContainer.innerHTML = '';
-    feedbackArea.classList.add('hidden');
-    prevBtn.disabled = currentIndex === 0;
+async function handleExamSelection() {
+    const selectedFile = jsonSelect.value;
+    if (!selectedFile) return;
 
-    q.opzioni.forEach(opt => {
-        const btn = document.createElement('button');
-        btn.className = 'option-btn';
-        btn.textContent = opt;
-
-        if (savedAnswer !== null) {
-            const correct = decodeB64(q.risposta_corretta);
-            if (opt === correct) btn.classList.add('correct');
-            if (opt === savedAnswer && opt !== correct) btn.classList.add('wrong');
-            btn.disabled = true;
-            showFeedback(q, savedAnswer);
-        } else {
-            btn.onclick = () => {
-                userAnswers[currentIndex] = opt;
-                renderQuestion();
-            };
-        }
-        optionsContainer.appendChild(btn);
-    });
-
-    // Se risposta data, mostra tasto Avanti o Fine
-    if (savedAnswer !== null) {
-        const isLast = currentIndex === sessionQuestions.length - 1;
-        const btn = document.createElement('button');
-        btn.className = 'btn-primary';
-        btn.textContent = isLast ? "Vedi Risultati" : "Prossima";
-        btn.onclick = isLast ? showResults : () => { currentIndex++; renderQuestion(); };
-        nextBtnContainer.appendChild(btn);
+    try {
+        const response = await fetch(`data/${selectedFile}`);
+        quizData = await response.json();
+        
+        document.getElementById('start-btn').disabled = false;
+        updateThreshold();
+    } catch (error) {
+        console.error('Error loading quiz data:', error);
+        alert('Errore nel caricamento del file esame');
     }
 }
 
-function showFeedback(q, selected) {
-    const correct = decodeB64(q.risposta_corretta);
-    const isCorrect = selected === correct;
-    const area = document.getElementById('feedback-area');
-    area.classList.remove('hidden');
-    area.className = `feedback-box ${isCorrect ? 'success' : 'error'}`;
-    document.getElementById('feedback-title').textContent = isCorrect ? "✅ Esatto!" : "❌ Sbagliato";
-    document.getElementById('feedback-text').textContent = q.spiegazione;
+function updateThreshold() {
+    const count = questionCountSelect.value;
+    const totalAvailable = quizData.length;
+    
+    if (count === 'all') {
+        totalQuestions = totalAvailable;
+    } else {
+        totalQuestions = parseInt(count);
+    }
+    
+    // Calculate 80% threshold
+    threshold = Math.ceil(totalQuestions * 0.8);
+    
+    // Update UI
+    thresholdInput.min = Math.ceil(totalQuestions * 0.5); // 50%
+    thresholdInput.max = totalQuestions; // 100%
+    thresholdInput.value = threshold;
+    
+    thresholdHelp.textContent = `Minimo: ${thresholdInput.min} | Massimo: ${thresholdInput.max} (${threshold} consigliato)`;
 }
 
-document.getElementById('prev-btn').onclick = () => {
-    currentIndex--;
+function validateThreshold() {
+    const min = parseInt(thresholdInput.min);
+    const max = parseInt(thresholdInput.max);
+    const value = parseInt(thresholdInput.value);
+    
+    if (value < min) thresholdInput.value = min;
+    if (value > max) thresholdInput.value = max;
+    
+    threshold = parseInt(thresholdInput.value);
+}
+
+function startGame() {
+    if (!jsonSelect.value) {
+        alert('Seleziona un esame!');
+        return;
+    }
+    
+    // Reset state
+    score = 0;
+    currentQuestionIndex = 0;
+    userAnswers = new Array(totalQuestions).fill(null);
+    
+    // Select questions
+    currentQuestions = shuffleArray([...quizData]).slice(0, totalQuestions);
+    
+    // Update UI
+    startScreen.classList.add('hidden');
+    resultScreen.classList.add('hidden');
+    quizScreen.classList.remove('hidden');
+    
     renderQuestion();
-};
+}
 
-// 5. Risultati Finali
-function showResults() {
-    document.getElementById('quiz-screen').classList.add('hidden');
-    document.getElementById('result-screen').classList.remove('hidden');
+function renderQuestion() {
+    const q = currentQuestions[currentQuestionIndex];
+    const userAnswer = userAnswers[currentQuestionIndex];
     
-    let finalScore = 0;
+    // Update UI
+    document.getElementById('question-text').textContent = q.domanda;
+    document.getElementById('question-counter').textContent = 
+        `Domanda ${currentQuestionIndex + 1}/${totalQuestions}`;
+    document.getElementById('score-counter').textContent = `Punteggio: ${score}`;
+    
+    updateProgressBar();
+    renderOptions(q, userAnswer);
+    updateNavigationButtons();
+    
+    // Show feedback if question was answered
+    if (userAnswer !== null) {
+        showFeedback(q, userAnswer);
+    } else {
+        hideFeedback();
+    }
+}
+
+function renderOptions(question, userAnswer) {
+    const container = document.getElementById('options-container');
+    container.innerHTML = '';
+    
+    const shuffledOptions = shuffleArray([...question.opzioni]);
+    
+    shuffledOptions.forEach(option => {
+        const btn = document.createElement('div');
+        btn.className = 'option-btn';
+        btn.textContent = option;
+        
+        if (userAnswer === null) {
+            // Question not answered yet
+            btn.onclick = () => selectAnswer(option, btn);
+            btn.style.cursor = 'pointer';
+        } else {
+            // Question already answered - show results
+            btn.style.cursor = 'default';
+            const correctAnswer = decodeBase64UTF8(question.risposta_corretta);
+            
+            if (option === correctAnswer) {
+                btn.classList.add('correct');
+                btn.innerHTML += ' <span style="float:right">✅</span>';
+            } else if (option === userAnswer && userAnswer !== correctAnswer) {
+                btn.classList.add('wrong');
+                btn.innerHTML += ' <span style="float:right">❌</span>';
+            }
+        }
+        
+        container.appendChild(btn);
+    });
+}
+
+function selectAnswer(selectedOption, btnElement) {
+    // Store user answer
+    userAnswers[currentQuestionIndex] = selectedOption;
+    
+    const q = currentQuestions[currentQuestionIndex];
+    const correctAnswer = decodeBase64UTF8(q.risposta_corretta);
+    
+    // Check if correct
+    if (selectedOption.trim() === correctAnswer.trim()) {
+        score++;
+    }
+    
+    // Re-render to show results
+    renderQuestion();
+}
+
+function showFeedback(question, userAnswer) {
+    const correctAnswer = decodeBase64UTF8(question.risposta_corretta);
+    const isCorrect = userAnswer === correctAnswer;
+    
+    const feedbackArea = document.getElementById('feedback-area');
+    const feedbackTitle = document.getElementById('feedback-title');
+    const feedbackText = document.getElementById('feedback-text');
+    const feedbackIcon = document.getElementById('feedback-icon');
+    
+    if (isCorrect) {
+        feedbackTitle.textContent = "Corretto!";
+        feedbackTitle.style.color = "var(--success-text)";
+        feedbackIcon.textContent = "✅";
+        feedbackArea.style.backgroundColor = "var(--success-bg)";
+    } else {
+        feedbackTitle.textContent = "Sbagliato";
+        feedbackTitle.style.color = "var(--error-text)";
+        feedbackIcon.textContent = "❌";
+        feedbackArea.style.backgroundColor = "var(--error-bg)";
+    }
+    
+    feedbackText.textContent = question.spiegazione;
+    feedbackArea.classList.remove('hidden');
+    
+    // Show continue button only if all questions answered
+    const continueBtn = document.getElementById('continue-btn');
+    if (userAnswers.every(answer => answer !== null)) {
+        continueBtn.textContent = 'Vedi Risultati';
+        continueBtn.onclick = showResults;
+    } else {
+        continueBtn.textContent = 'Continua';
+        continueBtn.onclick = continueQuiz;
+    }
+}
+
+function hideFeedback() {
+    document.getElementById('feedback-area').classList.add('hidden');
+}
+
+function continueQuiz() {
+    if (currentQuestionIndex < totalQuestions - 1) {
+        currentQuestionIndex++;
+        renderQuestion();
+    }
+}
+
+function previousQuestion() {
+    if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderQuestion();
+    }
+}
+
+function nextQuestion() {
+    if (currentQuestionIndex < totalQuestions - 1) {
+        currentQuestionIndex++;
+        renderQuestion();
+    }
+}
+
+function updateNavigationButtons() {
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    
+    prevBtn.disabled = currentQuestionIndex === 0;
+    nextBtn.disabled = currentQuestionIndex === totalQuestions - 1;
+}
+
+function updateProgressBar() {
+    const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+    document.getElementById('progress-bar').style.width = `${progress}%`;
+}
+
+function showResults() {
+    quizScreen.classList.add('hidden');
+    resultScreen.classList.remove('hidden');
+    
+    const finalScoreEl = document.getElementById('final-score');
+    const totalQuestionsEl = document.getElementById('total-questions');
+    const resultMessage = document.getElementById('result-message');
+    const resultIcon = document.getElementById('result-icon');
+    const percentageDisplay = document.getElementById('percentage-display');
+    const resultTitle = document.getElementById('result-title');
+    
+    finalScoreEl.textContent = score;
+    totalQuestionsEl.textContent = totalQuestions;
+    
+    const percentage = Math.round((score / totalQuestions) * 100);
+    percentageDisplay.textContent = `${percentage}% di risposte esatte`;
+    
+    const passed = score >= threshold;
+    
+    if (passed) {
+        resultTitle.textContent = "Promosso! 🎉";
+        resultMessage.textContent = `Ottimo lavoro! Hai superato l'esame con ${score}/${totalQuestions} risposte corrette.`;
+        resultIcon.textContent = "🏆";
+        resultScreen.style.borderTop = "8px solid var(--success-text)";
+    } else {
+        resultTitle.textContent = "Bocciato 😔";
+        resultMessage.textContent = `Non hai raggiunto la soglia sufficiente (${threshold}/${totalQuestions}). Ripassa e riprova.`;
+        resultIcon.textContent = "📚";
+        resultScreen.style.borderTop = "8px solid var(--error-text)";
+    }
+    
+    renderReviewList();
+}
+
+function renderReviewList() {
     const reviewList = document.getElementById('review-list');
     reviewList.innerHTML = '';
-
-    sessionQuestions.forEach((q, i) => {
-        const correct = decodeB64(q.risposta_corretta);
-        const userAns = userAnswers[i];
-        const isCorrect = userAns === correct;
-        if (isCorrect) finalScore++;
-
-        const div = document.createElement('div');
-        div.className = `review-item ${isCorrect ? 'rev-correct' : 'rev-wrong'}`;
-        div.innerHTML = `
-            <p><strong>${i+1}. ${q.domanda}</strong></p>
-            <p>La tua risposta: ${userAns || 'Non data'} ${isCorrect ? '✅' : '❌'}</p>
-            ${!isCorrect ? `<p>Risposta corretta: <strong>${correct}</strong></p>` : ''}
-            <p class="review-explanation"><em>Spiegazione:</em> ${q.spiegazione}</p>
-        `;
-        reviewList.appendChild(div);
-    });
-
-    document.getElementById('final-score').textContent = finalScore;
-    document.getElementById('total-questions-display').textContent = sessionQuestions.length;
     
-    const passed = finalScore >= passingThreshold;
-    document.getElementById('result-title').textContent = passed ? "Promosso! 🎉" : "Bocciato 😔";
-    document.getElementById('result-message').textContent = passed ? 
-        `Ottimo lavoro! Hai superato la soglia di ${passingThreshold}.` : 
-        `Purtroppo non hai raggiunto la soglia di ${passingThreshold}.`;
+    currentQuestions.forEach((question, index) => {
+        const userAnswer = userAnswers[index];
+        const correctAnswer = decodeBase64UTF8(question.risposta_corretta);
+        const isCorrect = userAnswer === correctAnswer;
+        
+        const reviewItem = document.createElement('div');
+        reviewItem.className = `review-item ${isCorrect ? 'correct' : 'wrong'}`;
+        
+        reviewItem.innerHTML = `
+            <div class="review-header">
+                <span class="question-number">Domanda ${index + 1}</span>
+                <span class="result-badge">${isCorrect ? '✅ Corretta' : '❌ Sbagliata'}</span>
+            </div>
+            <div class="question-text">${question.domanda}</div>
+            <div class="answer-comparison">
+                <div class="user-answer">
+                    <strong>La tua risposta:</strong> ${userAnswer || 'Non data'}
+                </div>
+                <div class="correct-answer">
+                    <strong>Risposta corretta:</strong> ${correctAnswer}
+                </div>
+            </div>
+            <div class="explanation">${question.spiegazione}</div>
+        `;
+        
+        reviewList.appendChild(reviewItem);
+    });
 }
 
-// Utility
-function decodeB64(s) { return decodeURIComponent(escape(atob(s))); }
-function shuffleArray(arr) { return arr.sort(() => Math.random() - 0.5); }
+function restartQuiz() {
+    // Reset all state
+    score = 0;
+    currentQuestionIndex = 0;
+    userAnswers = [];
+    currentQuestions = [];
+    
+    // Show start screen
+    resultScreen.classList.add('hidden');
+    startScreen.classList.remove('hidden');
+    
+    // Reset form
+    jsonSelect.value = '';
+    document.getElementById('start-btn').disabled = true;
+}
+
+// Utility Functions
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function decodeBase64UTF8(encoded) {
+    const binaryString = atob(encoded);
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return new TextDecoder().decode(bytes);
+}
+
+// Security: Disable right click
+document.addEventListener('contextmenu', event => event.preventDefault());
