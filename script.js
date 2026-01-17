@@ -1,118 +1,157 @@
-let allQuestions = [];
+// Stato Globale
 let sessionQuestions = [];
-let userAnswers = []; // Salva l'indice della risposta data per ogni domanda
+let userAnswers = []; 
 let currentIndex = 0;
-let passingThreshold = 10;
+let examThreshold = 0;
 
 // Elementi DOM
-const startScreen = document.getElementById('start-screen');
-const quizScreen = document.getElementById('quiz-screen');
-const resultScreen = document.getElementById('result-screen');
-const optionsContainer = document.getElementById('options-container');
-const nextBtn = document.getElementById('next-btn');
-const prevBtn = document.getElementById('prev-btn');
+const jsonSelect = document.getElementById('json-select');
+const countSelect = document.getElementById('count-select');
+const thresholdInput = document.getElementById('threshold-input');
+const minHint = document.getElementById('min-hint');
 
-document.getElementById('start-btn').addEventListener('click', initExam);
-nextBtn.addEventListener('click', () => { currentIndex++; renderQuestion(); });
-prevBtn.addEventListener('click', () => { currentIndex--; renderQuestion(); });
-
-async function initExam() {
-    const jsonFile = document.getElementById('json-select').value;
-    const countVal = document.getElementById('count-select').value;
-    passingThreshold = parseInt(document.getElementById('threshold-input').value);
-
+/**
+ * 1. Caricamento Iniziale: Legge l'indice dei file JSON
+ */
+async function loadQuizIndex() {
     try {
-        const response = await fetch(jsonFile);
-        allQuestions = await response.json();
+        const response = await fetch('data/index.json');
+        if (!response.ok) throw new Error("File index.json non trovato");
+        const files = await response.json();
         
-        // Mischia e taglia
-        let shuffled = shuffleArray([...allQuestions]);
-        let limit = countVal === 'all' ? shuffled.length : parseInt(countVal);
-        sessionQuestions = shuffled.slice(0, limit);
+        jsonSelect.innerHTML = '';
+        files.forEach(file => {
+            const option = document.createElement('option');
+            option.value = `data/${file}`;
+            // Formatta il nome: "cloud_exam.json" -> "CLOUD EXAM"
+            option.textContent = file.replace('.json', '').replace(/_/g, ' ').toUpperCase();
+            jsonSelect.appendChild(option);
+        });
         
-        // Inizializza risposte utente (null = non ancora data)
-        userAnswers = new Array(sessionQuestions.length).fill(null);
-        currentIndex = 0;
-
-        startScreen.classList.add('hidden');
-        quizScreen.classList.remove('hidden');
-        renderQuestion();
-    } catch (error) {
-        alert("Errore nel caricamento del file JSON. Assicurati di usare un server locale.");
-        console.error(error);
+        updateThresholdLogic();
+    } catch (err) {
+        console.error("Errore inizializzazione:", err);
+        alert("Errore: Assicurati che la cartella /data contenga index.json e i file dei quiz.");
     }
 }
 
+/**
+ * 2. Logica Soglia: Calcola l'80% e imposta i limiti Min/Max
+ */
+function updateThresholdLogic() {
+    const totalSelected = countSelect.value === 'all' ? 50 : parseInt(countSelect.value); 
+    
+    const defaultThreshold = Math.ceil(totalSelected * 0.8);
+    const minThreshold = Math.ceil(totalSelected / 2); // Minimo 50%
+    
+    thresholdInput.value = defaultThreshold;
+    thresholdInput.min = minThreshold;
+    thresholdInput.max = totalSelected;
+    minHint.textContent = minThreshold;
+}
+
+// Event Listeners per la configurazione
+countSelect.addEventListener('change', updateThresholdLogic);
+window.onload = loadQuizIndex;
+
+/**
+ * 3. Inizio Esame
+ */
+async function initExam() {
+    try {
+        const response = await fetch(jsonSelect.value);
+        const allData = await response.json();
+        
+        let limit = countSelect.value === 'all' ? allData.length : parseInt(countSelect.value);
+        if (limit > allData.length) limit = allData.length;
+
+        // Fissiamo la soglia scelta dall'utente
+        examThreshold = parseInt(thresholdInput.value);
+
+        sessionQuestions = shuffleArray([...allData]).slice(0, limit);
+        userAnswers = new Array(sessionQuestions.length).fill(null);
+        currentIndex = 0;
+
+        document.getElementById('start-screen').classList.add('hidden');
+        document.getElementById('quiz-screen').classList.remove('hidden');
+        renderQuestion();
+    } catch (e) {
+        alert("Errore nel caricamento del quiz selezionato.");
+    }
+}
+
+document.getElementById('start-btn').addEventListener('click', initExam);
+
+/**
+ * 4. Rendering Domanda e Navigazione
+ */
 function renderQuestion() {
     const q = sessionQuestions[currentIndex];
-    const savedAnswer = userAnswers[currentIndex];
+    const savedAns = userAnswers[currentIndex];
     
-    // UI Updates
+    // Aggiornamento Progressi
     document.getElementById('question-text').textContent = q.domanda;
     document.getElementById('question-counter').textContent = `Domanda ${currentIndex + 1}/${sessionQuestions.length}`;
     document.getElementById('progress-bar').style.width = `${((currentIndex + 1) / sessionQuestions.length) * 100}%`;
     
-    // Gestione pulsanti navigazione
-    prevBtn.disabled = currentIndex === 0;
-    nextBtn.classList.toggle('hidden', savedAnswer === null);
+    // Gestione Pulsanti
+    document.getElementById('prev-btn').disabled = currentIndex === 0;
+    const optionsContainer = document.getElementById('options-container');
+    const nextContainer = document.getElementById('next-container');
+    const feedbackArea = document.getElementById('feedback-area');
     
     optionsContainer.innerHTML = '';
-    document.getElementById('feedback-area').classList.add('hidden');
+    nextContainer.innerHTML = '';
+    feedbackArea.classList.add('hidden');
 
-    q.opzioni.forEach((opt) => {
+    q.opzioni.forEach(opt => {
         const btn = document.createElement('div');
         btn.className = 'option-btn';
-        btn.textContent = opt;
+        if (savedAns === opt) btn.classList.add('selected'); // Evidenzia scelta fatta
 
-        // Se la domanda ha già una risposta
-        if (savedAnswer !== null) {
-            btn.style.cursor = 'default';
+        // Se la risposta è già stata data, mostra subito i risultati e blocca
+        if (savedAns !== null) {
             const correct = decodeB64(q.risposta_corretta);
-            
             if (opt === correct) btn.classList.add('correct');
-            if (opt === savedAnswer && opt !== correct) btn.classList.add('wrong');
-            
-            showFeedback(q, savedAnswer);
+            if (opt === savedAns && opt !== correct) btn.classList.add('wrong');
+            showFeedback(q, savedAns);
         } else {
-            btn.onclick = () => handleSelection(opt);
+            btn.onclick = () => {
+                userAnswers[currentIndex] = opt;
+                renderQuestion();
+            };
         }
         optionsContainer.appendChild(btn);
     });
-}
 
-function handleSelection(selected) {
-    userAnswers[currentIndex] = selected;
-    
-    // Se è l'ultima domanda, mostra il tasto "Fine" invece di "Prossima"
-    if (currentIndex === sessionQuestions.length - 1) {
-        nextBtn.textContent = "Vedi Risultati";
-        nextBtn.onclick = showResults;
-    } else {
-        nextBtn.textContent = "Prossima";
-        nextBtn.onclick = () => { currentIndex++; renderQuestion(); };
+    if (savedAns !== null) {
+        const isLast = currentIndex === sessionQuestions.length - 1;
+        const btn = document.createElement('button');
+        btn.className = 'btn-primary';
+        btn.textContent = isLast ? "Vedi Risultati" : "Prossima";
+        btn.onclick = isLast ? showResults : () => { currentIndex++; renderQuestion(); };
+        nextContainer.appendChild(btn);
     }
-    
-    renderQuestion();
 }
 
 function showFeedback(q, selected) {
-    const feedbackArea = document.getElementById('feedback-area');
-    const correct = decodeB64(q.risposta_corretta);
-    const isCorrect = selected === correct;
-
-    feedbackArea.classList.remove('hidden');
-    document.getElementById('feedback-title').textContent = isCorrect ? "Corretto!" : "Sbagliato";
+    const area = document.getElementById('feedback-area');
+    const isCorrect = selected === decodeB64(q.risposta_corretta);
+    area.classList.remove('hidden');
+    document.getElementById('feedback-title').textContent = isCorrect ? "✅ Corretto" : "❌ Sbagliato";
     document.getElementById('feedback-text').textContent = q.spiegazione;
-    feedbackArea.style.backgroundColor = isCorrect ? "var(--success-bg)" : "var(--error-bg)";
 }
 
+/**
+ * 5. Risultati Finali
+ */
 function showResults() {
-    quizScreen.classList.add('hidden');
-    resultScreen.classList.remove('hidden');
+    document.getElementById('quiz-screen').classList.add('hidden');
+    document.getElementById('result-screen').classList.remove('hidden');
     
     let score = 0;
-    const reviewList = document.getElementById('review-list');
-    reviewList.innerHTML = '';
+    const list = document.getElementById('review-list');
+    list.innerHTML = '';
 
     sessionQuestions.forEach((q, i) => {
         const correct = decodeB64(q.risposta_corretta);
@@ -120,44 +159,23 @@ function showResults() {
         const isCorrect = userAns === correct;
         if (isCorrect) score++;
 
-        // Crea elemento riepilogo
         const item = document.createElement('div');
         item.className = `review-item ${isCorrect ? 'rev-correct' : 'rev-wrong'}`;
         item.innerHTML = `
             <p><strong>${i+1}. ${q.domanda}</strong></p>
-            <p>Tua risposta: ${userAns || 'Non data'} ${isCorrect ? '✅' : '❌'}</p>
-            ${!isCorrect ? `<p>Corretta: ${correct}</p>` : ''}
-            <p class="small-text"><em>Spiegazione: ${q.spiegazione}</em></p>
+            <p>Tua risposta: <span class="${isCorrect ? 'text-success' : 'text-error'}">${userAns || 'Non data'}</span></p>
+            ${!isCorrect ? `<p>Risposta corretta: <strong>${correct}</strong></p>` : ''}
+            <div class="review-explanation"><em>Spiegazione:</em> ${q.spiegazione}</div>
         `;
-        reviewList.appendChild(item);
+        list.appendChild(item);
     });
 
+    const passed = score >= examThreshold;
     document.getElementById('final-score').textContent = score;
     document.getElementById('total-possible').textContent = sessionQuestions.length;
-    
-    const passed = score >= passingThreshold;
-    document.getElementById('result-title').textContent = passed ? "Promosso! 🎉" : "Bocciato 😔";
-    document.getElementById('result-message').textContent = passed ? 
-        `Ottimo! Hai raggiunto la soglia di ${passingThreshold}.` : 
-        `Sotto la soglia di ${passingThreshold}. Devi studiare di più!`;
-}
-
-function resetApp() {
-    location.reload();
+    document.getElementById('result-title').textContent = passed ? "Superato! 🏆" : "Non Superato 📚";
 }
 
 // Utility
-function decodeB64(str) {
-    const binaryString = atob(str);
-    const bytes = new Uint8Array(binaryString.length);
-    for (let i = 0; i < binaryString.length; i++) bytes[i] = binaryString.charCodeAt(i);
-    return new TextDecoder().decode(bytes);
-}
-
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
+function decodeB64(s) { return decodeURIComponent(escape(atob(s))); }
+function shuffleArray(arr) { return arr.sort(() => Math.random() - 0.5); }
