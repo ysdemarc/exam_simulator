@@ -81,22 +81,8 @@ function checkAnswer(selectedOption, encodedCorrectAnswer, explanation, btnEleme
     if (isAnswered) return; // Evita doppi click
     isAnswered = true;
 
-    // --- FIX UTF-8 ---
-    // Decodifica corretta per caratteri accentati (à, è, ì, ò, ù)
-    // 1. Decodifica Base64 in stringa binaria
-    const binaryString = atob(encodedCorrectAnswer);
-    // 2. Converti in array di bytes
-    const bytes = new Uint8Array(binaryString.length);
-    for (let i = 0; i < binaryString.length; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-    }
-    // 3. Decodifica i bytes come UTF-8
-    const correctAnswer = new TextDecoder().decode(bytes);
-    // -----------------
-
-    // Normalizziamo le stringhe (rimuove spazi extra invisibili)
     const isCorrect = selectedOption.trim() === correctAnswer.trim();
-    
+   
     // Stile bottoni
     const allBtns = optionsContainer.children;
     for (let btn of allBtns) {
