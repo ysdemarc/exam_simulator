@@ -57,9 +57,9 @@ function renderQuestion() {
     
     // Aggiorna UI
     questionText.textContent = q.domanda;
-    questionCounter.textContent = `Domanda ${currentQuestionIndex + 1}/${totalQuestions}`;
+    questionCounter.textContent = `Domanda ${currentQuestionIndex + 1}/${currentQuestions.length}`;
     scoreCounter.textContent = `Punteggio: ${score}`;
-    progressBar.style.width = `${((currentQuestionIndex) / totalQuestions) * 100}%`;
+    progressBar.style.width = `${((currentQuestionIndex) / currentQuestions.length) * 100}%`;
     
     // Resetta feedback
     feedbackArea.classList.add('hidden');
