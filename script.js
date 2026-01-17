@@ -7,6 +7,7 @@ let isAnswered = false;
 let threshold = 16;
 let totalQuestions = 20;
 let quizData = [];
+let quizData_records = 0;
 
 // Elementi DOM
 const startScreen = document.getElementById('start-screen');
@@ -192,29 +193,41 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupEventListeners();
 });
 
+// Carica la lista degli esami disponibili leggendo anche il numero di record
 async function loadAvailableExams() {
-    try {        
-		const response = await fetch('data/index.json');
-		if (!response.ok) throw new Error("File index.json non trovato");
+    try {
+        // Caricamento del file index.json
+        const response = await fetch('data/index.json');
+        if (!response.ok)
+            throw new Error("File index.json non trovato");
+
+        // Parsing del JSON (array di oggetti)
         const examFiles = await response.json();
-        
+
+        // Pulizia select
         jsonSelect.innerHTML = '';
-        
-        examFiles.forEach(file => {
+
+        // Creazione opzioni
+        examFiles.forEach(item => {
             const option = document.createElement('option');
-            option.value = file;
-            option.textContent = formatExamName(file);
+
+            // Nome file reale
+            option.value = item.file;          
+            option.textContent = formatExamName(item.file);            
+            option.dataset.records = item.records;
+
             jsonSelect.appendChild(option);
         });
-        
+
         jsonSelect.disabled = false;
-		
+
     } catch (error) {
         console.error('Error loading exams:', error);
-        jsonSelect.innerHTML = '<option value="">Errore caricamento</option>';
+        jsonSelect.innerHTML =
+            '<option value="">Errore caricamento</option>';
+        jsonSelect.disabled = true;
     }
 }
-
 
 
 function formatExamName(filename) {
@@ -235,29 +248,55 @@ function setupEventListeners() {
 	nextBtn.addEventListener('click', nextQuestion);
 }
 
+// Gestisce la selezione dell'esame e legge anche il numero di records
 async function handleExamSelection() {
+
+    // File selezionato
     const selectedFile = jsonSelect.value;
-	
     if (!selectedFile) return;
 
+    // Opzione selezionata (serve per leggere data-records)
+    const selectedOption =
+        jsonSelect.options[jsonSelect.selectedIndex];
+
+    // Numero di record dichiarati in index.json
+    quizData_records =
+        parseInt(selectedOption.dataset.records, 0);
+
+    console.log('Records dichiarati:', quizData_records);
+
     try {
+        // Caricamento file JSON dell'esame
         const response = await fetch(`data/${selectedFile}`);
+        if (!response.ok)
+            throw new Error('File esame non trovato');
+
         quizData = await response.json();
-        
+
+        // Controllo di coerenza (opzionale ma consigliato)
+        if (quizData.length !== quizData_records) {
+            console.warn(
+                'Numero record non coerente:',
+                quizData.length,
+                'attesi:',
+                quizData_records
+            );
+        }
+
         document.getElementById('start-btn').disabled = false;
         updateThreshold();
+
     } catch (error) {
         console.error('Error loading quiz data:', error);
         alert('Errore nel caricamento del file esame');
     }
 }
 
+
 function updateThreshold() {
-	if (!Array.isArray(quizData) || quizData.length === 0) {
-        return;
-    }
+	
     const count = questionCountSelect.value;
-    let totalQuestions = quizData.length;
+    let totalQuestions = quizData_records;
     
     if (count!== '') {        
         totalQuestions = parseInt(count);
