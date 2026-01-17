@@ -254,7 +254,7 @@ async function handleExamSelection() {
 
 function updateThreshold() {
     const count = questionCountSelect.value;
-    const totalQuestions = quizData.length;
+    let totalQuestions = quizData.length;
     
     if (count !== 'all') {        
         totalQuestions = parseInt(count);
