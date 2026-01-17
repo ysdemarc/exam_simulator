@@ -236,59 +236,56 @@ function setupEventListeners() {
 
 async function handleExamSelection() {
     const selectedFile = jsonSelect.value;
-	console.log("selectedFile", selectedFile);
     if (!selectedFile) return;
 
     try {
         const response = await fetch(`data/${selectedFile}`);
         quizData = await response.json();
-        
+
+        // Abilita UI solo quando i dati sono pronti
         document.getElementById('start-btn').disabled = false;
-        updateThreshold();
+        questionCountSelect.disabled = false;
+
+        updateThreshold(); // QUI ora è sicuro
     } catch (error) {
         console.error('Error loading quiz data:', error);
         alert('Errore nel caricamento del file esame');
     }
 }
 
+
 function updateThreshold() {
-    const countValue = questionCountSelect.value;
-
-    // Recupero sicuro del numero di domande
-    let total;
-
-    if (Array.isArray(quizData)) {
-        total = quizData.length;
-    } else if (quizData && Array.isArray(quizData.questions)) {
-        total = quizData.questions.length;
-    } else {
-        total = 0; // fallback di sicurezza
-    }
-
-    // Se NON è "Tutte", uso il valore selezionato
-    if (countValue !== '') {
-        total = parseInt(countValue, 10);
-    }
-
-    // Protezione anti-NaN
-    if (!Number.isFinite(total) || total <= 0) {
-        threshold = 0;
-        thresholdInput.value = 0;
-        thresholdHelp.textContent = 'Nessuna domanda disponibile';
+    // Se i dati non sono ancora caricati → esci
+    if (!quizData || (Array.isArray(quizData) && quizData.length === 0)) {
         return;
     }
 
-    // Calcolo soglia (80%)
-    threshold = Math.ceil(total * 0.8);
+    const countValue = questionCountSelect.value;
 
-    thresholdInput.min = Math.ceil(total * 0.5); // 50%
-    thresholdInput.max = total;                  // 100%
+    // Numero totale reale di domande
+    let totalQuestions = Array.isArray(quizData)
+        ? quizData.length
+        : Array.isArray(quizData.questions)
+            ? quizData.questions.length
+            : 0;
+
+    // Se NON è "Tutte", usa il valore selezionato
+    if (countValue !== '') {
+        totalQuestions = parseInt(countValue, 10);
+    }
+
+    if (!Number.isFinite(totalQuestions) || totalQuestions <= 0) return;
+
+    // 80% soglia consigliata
+    threshold = Math.ceil(totalQuestions * 0.8);
+
+    thresholdInput.min = Math.ceil(totalQuestions * 0.5);
+    thresholdInput.max = totalQuestions;
     thresholdInput.value = threshold;
 
     thresholdHelp.textContent =
         `Minimo: ${thresholdInput.min} | Massimo: ${thresholdInput.max} (${threshold} consigliato)`;
 }
-
 
 function validateThreshold() {
     const min = parseInt(thresholdInput.min);
