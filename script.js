@@ -1,4 +1,3 @@
-// Stato dell'applicazione
 let currentQuestions = [];
 let currentQuestionIndex = 0;
 let score = 0;
@@ -39,7 +38,7 @@ function startGame() {
     // quizData viene caricato da data.js
     currentQuestions = shuffleArray([...quizData]).slice(0, totalQuestions);
     
-	console.log(quizData);
+	//console.log(quizData);
     // 3. Mostra interfaccia quiz
     startScreen.classList.add('hidden');
     resultScreen.classList.add('hidden');
@@ -50,10 +49,10 @@ function startGame() {
 
 function renderQuestion() {
     isAnswered = false;
-	console.log(currentQuestionIndex, currentQuestions);
+	//console.log(currentQuestionIndex, currentQuestions);
     const q = currentQuestions[currentQuestionIndex];
 	
-	console.log(q);
+	//console.log(q);
     
     // Aggiorna UI
     questionText.textContent = q.domanda;
