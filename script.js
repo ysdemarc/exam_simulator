@@ -214,9 +214,9 @@ async function loadAvailableExams() {
             const option = document.createElement('option');
 
             // Nome file reale
-            option.value = item.file;          
-            option.textContent = formatExamName(item.file);            
-            option.dataset.records = item.records;
+            option.value = item;          
+            option.textContent = formatExamName(item);            
+            //option.dataset.records = item.records;
 
             jsonSelect.appendChild(option);
         });
