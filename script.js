@@ -84,7 +84,7 @@ function checkAnswer(selectedOption, encodedCorrectAnswer, explanation, btnEleme
     // --- FIX UTF-8 ---
     // Decodifica corretta per caratteri accentati (à, è, ì, ò, ù)
     // 1. Decodifica Base64 in stringa binaria
-    const binaryString = decodeB64(encodedCorrectAnswer);
+    const binaryString = atob(encodedCorrectAnswer);
     // 2. Converti in array di bytes
     const bytes = new Uint8Array(binaryString.length);
     for (let i = 0; i < binaryString.length; i++) {
