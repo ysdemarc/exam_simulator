@@ -77,7 +77,7 @@ function renderQuestion() {
     });
 }
 
-function checkAnswer(selectedOption, encodedCorrectAnswer, explanation, btnElement) {
+function checkAnswer(selectedOption, correctAnswer, explanation, btnElement) {
     if (isAnswered) return; // Evita doppi click
     isAnswered = true;
 
