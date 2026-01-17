@@ -51,7 +51,7 @@ function renderQuestion() {
     isAnswered = false;
     const q = currentQuestions[currentQuestionIndex];
 	
-	console.log(q);
+	console.log(q, currentQuestionIndex, currentQuestions.length);
     
     // Aggiorna UI
     questionText.textContent = q.domanda;
