@@ -50,6 +50,8 @@ function startGame() {
 function renderQuestion() {
     isAnswered = false;
     const q = currentQuestions[currentQuestionIndex];
+	
+	console.log(q);
     
     // Aggiorna UI
     questionText.textContent = q.domanda;
