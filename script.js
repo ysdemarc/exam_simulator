@@ -227,6 +227,7 @@ function formatExamName(filename) {
 function setupEventListeners() {
     jsonSelect.addEventListener('change', handleExamSelection);
     questionCountSelect.addEventListener('change', updateThreshold);
+	questionCountSelect.addEventListener('click', updateThreshold);
     thresholdInput.addEventListener('input', validateThreshold);
 	
 	// Funzione di Start
@@ -253,11 +254,9 @@ async function handleExamSelection() {
 
 function updateThreshold() {
     const count = questionCountSelect.value;
-    const totalAvailable = quizData.length;
+    const totalQuestions = quizData.length;
     
-    if (count === 'all') {
-        totalQuestions = totalAvailable;
-    } else {
+    if (count!== 'all') {        
         totalQuestions = parseInt(count);
     }
     
