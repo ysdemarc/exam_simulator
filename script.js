@@ -50,6 +50,7 @@ function startGame() {
 
 function renderQuestion() {
     isAnswered = false;
+	console.log(currentQuestionIndex, currentQuestions);
     const q = currentQuestions[currentQuestionIndex];
 	
 	console.log(q);
