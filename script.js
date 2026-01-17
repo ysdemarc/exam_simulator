@@ -81,7 +81,7 @@ function checkAnswer(selectedOption, encodedCorrectAnswer, explanation, btnEleme
     // --- FIX UTF-8 ---
     // Decodifica corretta per caratteri accentati (à, è, ì, ò, ù)
     // 1. Decodifica Base64 in stringa binaria
-    const binaryString = atob(encodedCorrectAnswer);
+    const binaryString = decodeB64(encodedCorrectAnswer);
     // 2. Converti in array di bytes
     const bytes = new Uint8Array(binaryString.length);
     for (let i = 0; i < binaryString.length; i++) {
@@ -279,4 +279,16 @@ function validateThreshold() {
     if (value > max) thresholdInput.value = max;
     
     threshold = parseInt(thresholdInput.value);
+}
+
+
+function decodeB64(s) {
+    try {
+        // atob() decodifica in una stringa di byte "raw"
+        // escape + decodeURIComponent gestiscono la conversione in caratteri speciali
+        return decodeURIComponent(escape(decodeB64(s)));
+    } catch (e) {
+        console.error("Errore nella decodifica Base64:", e);
+        return s; // Ritorna la stringa originale se fallisce
+    }
 }
