@@ -3,47 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud Simulator Pro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Exam Simulator</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div class="app-container">
-        
+        <!-- Start Screen with Dynamic Loader -->
         <div id="start-screen" class="card fade-in">
-            <h1>Simulatore Esami</h1>
-            <p class="subtitle">Configura la tua sessione di studio</p>
-
-            <div class="config-grid">
-                <div class="config-item">
-                    <label>Seleziona Quiz:</label>
-                    <select id="json-select">
-                        <option value="">Caricamento...</option>
-                    </select>
-                </div>
-
-                <div class="config-item">
-                    <label>Numero Domande:</label>
-                    <select id="count-select">
-                        <option value="10">10 domande</option>
-                        <option value="20" selected>20 domande</option>
-                        <option value="30">30 domande</option>
-                        <option value="50">50 domande</option>
-                        <option value="all">Tutte le domande</option>
-                    </select>
-                </div>
-
-                <div class="config-item">
-                    <label>Soglia Superamento (80%):</label>
-                    <input type="number" id="threshold-input">
-                    <small>Min: <span id="min-threshold"></span> | Max: <span id="max-threshold"></span></small>
+            <h1>Exam Simulator</h1>
+            <p class="subtitle">Seleziona un esame e configura le opzioni</p>
+            
+            <div class="config-section">
+                <label for="json-select">Seleziona Esame:</label>
+                <select id="json-select" disabled>
+                    <option value="">Caricamento...</option>
+                </select>
+                
+                <label for="question-count">Numero Domande:</label>
+                <select id="question-count">
+                    <option value="10">10 domande</option>
+                    <option value="20" selected>20 domande</option>
+                    <option value="50">50 domande</option>
+                    <option value="all">Tutte le domande</option>
+                </select>
+                
+                <div class="threshold-config">
+                    <label for="threshold">Soglia di Superamento:</label>
+                    <input type="number" id="threshold" min="1" max="20" value="16">
+                    <small id="threshold-help">Minimo: 10 | Massimo: 20 (80% consigliato)</small>
                 </div>
             </div>
-
-            <button id="start-btn" class="btn-primary">Inizia Simulazione</button>
+            
+            <button id="start-btn" class="btn-primary" disabled>Inizia Esame</button>
         </div>
 
+        <!-- Quiz Screen with Navigation -->
         <div id="quiz-screen" class="hidden">
             <div class="progress-container">
                 <div class="progress-bar" id="progress-bar"></div>
@@ -52,6 +46,10 @@
             <div class="header-stats">
                 <span id="question-counter">Domanda 1/20</span>
                 <span id="score-counter">Punteggio: 0</span>
+                <div class="nav-buttons">
+                    <button id="prev-btn" class="nav-btn" disabled>← Precedente</button>
+                    <button id="next-btn" class="nav-btn" disabled>Successiva →</button>
+                </div>
             </div>
 
             <div class="card" id="question-card">
@@ -61,33 +59,31 @@
 
             <div id="feedback-area" class="feedback-box hidden">
                 <div class="feedback-header">
+                    <span id="feedback-icon"></span>
                     <strong id="feedback-title"></strong>
                 </div>
                 <p id="feedback-text"></p>
-            </div>
-
-            <div class="nav-controls">
-                <button id="prev-btn" class="btn-secondary">Indietro</button>
-                <div id="next-btn-container"></div>
+                <button id="continue-btn" class="btn-primary">Continua</button>
             </div>
         </div>
 
+        <!-- Results Screen with Review -->
         <div id="result-screen" class="card hidden">
             <div id="result-icon"></div>
             <h1 id="result-title">Esame Completato</h1>
-            <div class="score-display">
-                <span id="final-score">0</span> / <span id="total-questions-display">0</span>
-            </div>
             <p id="result-message"></p>
+            <div class="score-display">
+                <span id="final-score">0</span> / <span id="total-questions">20</span>
+            </div>
+            <p id="percentage-display"></p>
             
             <div id="review-section">
-                <h3>Riepilogo Risposte</h3>
+                <h3>Riepilogo Risposte:</h3>
                 <div id="review-list"></div>
             </div>
-
-            <button onclick="location.reload()" class="btn-primary" style="margin-top: 20px;">Nuova Simulazione</button>
+            
+            <button id="restart-btn" class="btn-secondary">Nuovo Quiz</button>
         </div>
-
     </div>
 
     <script src="script.js"></script>
