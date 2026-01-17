@@ -765,5 +765,17 @@
     ],
     "risposta_corretta": "Microsoft Graph Connectors",
     "spiegazione": "I connettori indicizzano contenuti di terze parti (file share, CRM, SAP) nel grafo, rendendoli ricercabili in Microsoft 365."
-  }
+  },
+   {
+      "id": 69,
+      "domanda": "Quale dei componenti seguenti del servizio API Management userebbe uno sviluppatore per creare un account e iscriversi per ottenere l'accesso alla chiave per un'API?",
+      "opzioni": [
+        "API Gateway",
+        "Portale di Azure",
+        "Management Plane",
+        "Portale per sviluppatori"
+      ],
+      "risposta_corretta": "Portale per sviluppatori",
+      "spiegazione": "Il Developer Portal è la faccia pubblica delle tue API. È un sito web generato automaticamente dove gli sviluppatori esterni possono leggere la documentazione, testare le API e, soprattutto, ottenere le chiavi di accesso (API Key)."
+    },
 ]
