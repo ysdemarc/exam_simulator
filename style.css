@@ -119,3 +119,52 @@ h2 { font-size: 1.25rem; margin-bottom: 1.5rem; font-weight: 600; line-height: 1
 /* RESULT SCREEN */
 .score-display { font-size: 3rem; font-weight: 800; color: var(--primary-color); margin: 1rem 0; }
 #result-icon { font-size: 4rem; margin-bottom: 1rem; }
+
+/* Configurazione Iniziale */
+.config-grid {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+.config-item label {
+    display: block;
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+    color: var(--text-secondary);
+}
+select, input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+}
+
+/* Navigazione */
+.nav-controls {
+    display: flex;
+    gap: 15px;
+    margin-top: 1rem;
+}
+
+/* Riepilogo Finale */
+#review-container {
+    margin-top: 2rem;
+    text-align: left;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+.review-item {
+    padding: 15px;
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+.rev-correct { border-left: 5px solid #166534; background: #f0fdf4; }
+.rev-wrong { border-left: 5px solid #991b1b; background: #fef2f2; }
+.small-text { font-size: 0.85rem; margin-top: 5px; color: #4b5563; }
+
+/* Custom Scrollbar per il riepilogo */
+#review-container::-webkit-scrollbar { width: 6px; }
+#review-container::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
