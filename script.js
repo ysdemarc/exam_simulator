@@ -144,7 +144,7 @@ function showResults() {
     const percentageDisplay = document.getElementById('percentage-display');
     const resultTitle = document.getElementById('result-title');
     
-    finalScoreEl.textContent = score;
+    finalScoreEl.textContent = `${score} / ${totalQuestions}`;
     const percentage = Math.round((score / totalQuestions) * 100);
     percentageDisplay.textContent = `${percentage}% di risposte esatte`;
 
