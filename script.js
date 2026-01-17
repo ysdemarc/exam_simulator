@@ -257,13 +257,11 @@ function updateThreshold() {
         return;
     }
     const count = questionCountSelect.value;
-    let totalQuestions = 0;
+    let totalQuestions = quizData.length;
     
-    if (count !== '') {        
+    if (count!== '') {        
         totalQuestions = parseInt(count);
-    } else if (quizData != null && quizData != undefined) {
-		totalQuestions = quizData.length;
-	}
+    }
     
     // Calculate 80% threshold
     threshold = Math.ceil(totalQuestions * 0.8);
@@ -288,13 +286,31 @@ function validateThreshold() {
 }
 
 
-function decodeB64(s) {
-    try {
-        // atob() decodifica in una stringa di byte "raw"
-        // escape + decodeURIComponent gestiscono la conversione in caratteri speciali
-        return decodeURIComponent(escape(decodeB64(s)));
-    } catch (e) {
-        console.error("Errore nella decodifica Base64:", e);
-        return s; // Ritorna la stringa originale se fallisce
+function decodeB64(base64) {
+    // Tabella Base64 standard
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+
+    let buffer = [];
+    let bits = 0;
+    let bitCount = 0;
+
+    // Decodifica Base64 in bytes
+    for (let i = 0; i < base64.length; i++) {
+        const c = base64[i];
+        if (c === '=') break;
+
+        const value = chars.indexOf(c);
+        if (value === -1) continue; // ignora caratteri non validi
+
+        bits = (bits << 6) | value;
+        bitCount += 6;
+
+        if (bitCount >= 8) {
+            bitCount -= 8;
+            buffer.push((bits >> bitCount) & 0xff);
+        }
     }
+
+    // Conversione bytes → stringa UTF-8
+    return new TextDecoder('utf-8').decode(new Uint8Array(buffer));
 }
