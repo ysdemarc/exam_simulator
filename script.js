@@ -7,7 +7,6 @@ let isAnswered = false;
 let threshold = 16;
 let totalQuestions = 20;
 let quizData = [];
-let quizData_records = 0;
 
 // Elementi DOM
 const startScreen = document.getElementById('start-screen');
@@ -40,6 +39,7 @@ function startGame() {
     // quizData viene caricato da data.js
     currentQuestions = shuffleArray([...quizData]).slice(0, totalQuestions);
     
+	console.log(quizData);
     // 3. Mostra interfaccia quiz
     startScreen.classList.add('hidden');
     resultScreen.classList.add('hidden');
@@ -191,6 +191,7 @@ document.addEventListener('contextmenu', event => event.preventDefault());
 document.addEventListener('DOMContentLoaded', async () => {
     await loadAvailableExams();
     setupEventListeners();
+	await handleExamSelection();
 });
 
 // Carica la lista degli esami disponibili leggendo anche il numero di record
@@ -259,12 +260,7 @@ async function handleExamSelection() {
     const selectedOption =
         jsonSelect.options[jsonSelect.selectedIndex];
 
-    // Numero di record dichiarati in index.json
-    quizData_records =
-        parseInt(selectedOption.dataset.records, 0);
-
-    console.log('Records dichiarati:', quizData_records);
-
+    
     try {
         // Caricamento file JSON dell'esame
         const response = await fetch(`data/${selectedFile}`);
@@ -273,15 +269,6 @@ async function handleExamSelection() {
 
         quizData = await response.json();
 
-        // Controllo di coerenza (opzionale ma consigliato)
-        if (quizData.length !== quizData_records) {
-            console.warn(
-                'Numero record non coerente:',
-                quizData.length,
-                'attesi:',
-                quizData_records
-            );
-        }
 
         document.getElementById('start-btn').disabled = false;
         updateThreshold();
@@ -296,7 +283,7 @@ async function handleExamSelection() {
 function updateThreshold() {
 	
     const count = questionCountSelect.value;
-    let totalQuestions = quizData_records;
+    let totalQuestions = quizData.length;
     
     if (count!== '') {        
         totalQuestions = parseInt(count);
