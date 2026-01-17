@@ -312,31 +312,14 @@ function validateThreshold() {
 }
 
 
-function decodeB64(base64) {
-    // Tabella Base64 standard
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-
-    let buffer = [];
-    let bits = 0;
-    let bitCount = 0;
-
-    // Decodifica Base64 in bytes
-    for (let i = 0; i < base64.length; i++) {
-        const c = base64[i];
-        if (c === '=') break;
-
-        const value = chars.indexOf(c);
-        if (value === -1) continue; // ignora caratteri non validi
-
-        bits = (bits << 6) | value;
-        bitCount += 6;
-
-        if (bitCount >= 8) {
-            bitCount -= 8;
-            buffer.push((bits >> bitCount) & 0xff);
-        }
+function decodeB64(data) {
+    try {
+        // Se atob fallisce, significa che la stringa non è Base64 (è già testo in chiaro)
+        const binaryString = atob(data);
+        const bytes = Uint8Array.from(binaryString, c => c.charCodeAt(0));
+        return new TextDecoder('utf-8').decode(bytes);
+    } catch (e) {
+        // Se va in errore, restituisci il testo così com'è
+        return data;
     }
-
-    // Conversione bytes → stringa UTF-8
-    return new TextDecoder('utf-8').decode(new Uint8Array(buffer));
 }
