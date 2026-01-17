@@ -233,8 +233,9 @@ function setupEventListeners() {
 
 function handleExamSelection() {
     const selectedFile = jsonSelect.value;
+	console.log("selectedFile",selectedFile);
     if (!selectedFile) return;
-
+	
     fetch(`data/${selectedFile}`)
         .then(response => {
             if (!response.ok) {
@@ -244,6 +245,7 @@ function handleExamSelection() {
         })
         .then(data => {
             // Normalizzazione: quizData È SEMPRE UN ARRAY
+			console.log(data);
             quizData = Array.isArray(data) ? data : data.questions || [];
 
             totalQuestions = quizData.length;
