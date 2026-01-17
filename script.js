@@ -252,23 +252,43 @@ async function handleExamSelection() {
 }
 
 function updateThreshold() {
-    const count = questionCountSelect.value;
-    let totalQuestions = quizData.length;
-    
-    if (count != '') {        
-        totalQuestions = parseInt(count);
+    const countValue = questionCountSelect.value;
+
+    // Recupero sicuro del numero di domande
+    let total;
+
+    if (Array.isArray(quizData)) {
+        total = quizData.length;
+    } else if (quizData && Array.isArray(quizData.questions)) {
+        total = quizData.questions.length;
+    } else {
+        total = 0; // fallback di sicurezza
     }
-    
-    // Calculate 80% threshold
-    threshold = Math.ceil(totalQuestions * 0.8);
-    
-    // Update UI
-    thresholdInput.min = Math.ceil(totalQuestions * 0.5); // 50%
-    thresholdInput.max = totalQuestions; // 100%
+
+    // Se NON è "Tutte", uso il valore selezionato
+    if (countValue !== '') {
+        total = parseInt(countValue, 10);
+    }
+
+    // Protezione anti-NaN
+    if (!Number.isFinite(total) || total <= 0) {
+        threshold = 0;
+        thresholdInput.value = 0;
+        thresholdHelp.textContent = 'Nessuna domanda disponibile';
+        return;
+    }
+
+    // Calcolo soglia (80%)
+    threshold = Math.ceil(total * 0.8);
+
+    thresholdInput.min = Math.ceil(total * 0.5); // 50%
+    thresholdInput.max = total;                  // 100%
     thresholdInput.value = threshold;
-    
-    thresholdHelp.textContent = `Minimo: ${thresholdInput.min} | Massimo: ${thresholdInput.max} (${threshold} consigliato)`;
+
+    thresholdHelp.textContent =
+        `Minimo: ${thresholdInput.min} | Massimo: ${thresholdInput.max} (${threshold} consigliato)`;
 }
+
 
 function validateThreshold() {
     const min = parseInt(thresholdInput.min);
