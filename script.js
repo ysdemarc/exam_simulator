@@ -311,15 +311,19 @@ function validateThreshold() {
     threshold = parseInt(thresholdInput.value);
 }
 
-
 function decodeB64(data) {
+    if (!data) return "";
     try {
-        // Se atob fallisce, significa che la stringa non è Base64 (è già testo in chiaro)
+        // Tenta la decodifica: atob() -> Uint8Array -> TextDecoder (per accenti)
         const binaryString = atob(data);
-        const bytes = Uint8Array.from(binaryString, c => c.charCodeAt(0));
+        const bytes = new Uint8Array(binaryString.length);
+        for (let i = 0; i < binaryString.length; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
         return new TextDecoder('utf-8').decode(bytes);
     } catch (e) {
-        // Se va in errore, restituisci il testo così com'è
+        // Se atob fallisce, significa che il testo è già "in chiaro"
+        // Restituiamo il dato originale
         return data;
     }
 }
