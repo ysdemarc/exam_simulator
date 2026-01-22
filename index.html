@@ -1,84 +1,122 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exam Simulator</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exam Simulator</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* piccoli adattamenti senza toccare il CSS originale */
+    .muted{ opacity:.75; font-size:.9rem; }
+    .question-meta{ display:flex; gap:10px; align-items:baseline; flex-wrap:wrap; }
+    .question-meta small{ opacity:.75; font-weight:600; }
+    .actions-row{ display:flex; gap:12px; flex-wrap:wrap; margin-top:14px; }
+    .actions-row button{ flex:1; min-width:180px; }
+    .btn-secondary[disabled], .btn-primary[disabled]{ opacity:.55; cursor:not-allowed; }
+    .review-box{ margin-top:18px; }
+    .review-item{ padding:12px; border:1px solid rgba(148,163,184,.45); border-radius:12px; background: rgba(255,255,255,.6); margin-top:10px; }
+    .review-item h3{ margin:0 0 8px 0; font-size:1rem; }
+    .pill{ display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; font-size:.85rem; font-weight:700; }
+    .pill-ok{ background: rgba(34,197,94,.15); }
+    .pill-ko{ background: rgba(239,68,68,.15); }
+  </style>
 </head>
+
 <body>
+  <div class="app-container">
 
-    <div class="app-container">
-        
-        <div id="start-screen" class="card fade-in">
-            <h1>Exam Simulator</h1>
-             <p class="subtitle">Seleziona un esame e configura le opzioni</p>
-            
-            <div class="config-section">
-                <label for="json-select">Seleziona Esame:</label>
-                <select id="json-select" disabled>
-                    <option value="">Caricamento...</option>
-                </select>
-                
-                <label for="question-count">Numero Domande:</label>
-                <select id="question-count">
-                    <option value="10">10 domande</option>
-                    <option value="20" selected>20 domande</option>
-                    <option value="50">50 domande</option>
-                    <option value="">Tutte le domande</option>
-                </select>
-                
-                <div class="threshold-config">
-                    <label for="threshold">Soglia di Superamento:</label>
-                    <input type="number" id="threshold" min="1" max="20" value="16">
-                    <small id="threshold-help">Minimo: 10 | Massimo: 20 (80% consigliato)</small>
-                </div>
-            </div>
+    <!-- START -->
+    <div id="start-screen" class="card fade-in">
+      <h1>Exam Simulator</h1>
+      <p class="subtitle">Seleziona un <b>questionario/</b> e configura le opzioni</p>
 
-            <button id="start-btn" class="btn-primary">Inizia Esame</button>
+      <div class="config-section">
+        <label for="json-select">Seleziona Esame:</label>
+        <select id="json-select" disabled>
+          <option value="">Caricamento...</option>
+        </select>
+        <div class="muted" id="exam-status">In attesa della lista esami</div>
+
+        <label for="question-count">Numero Domande:</label>
+        <select id="question-count" disabled>
+          <option value="10">10 domande</option>
+          <option value="20" selected>20 domande</option>
+          <option value="50">50 domande</option>
+          <option value="">Tutte le domande</option>
+        </select>
+
+        <div class="threshold-config">
+          <label for="threshold">Soglia di Superamento:</label>
+          <input type="number" id="threshold" min="1" max="20" value="16" disabled>
+          <small id="threshold-help">Seleziona prima un esame</small>
         </div>
+      </div>
 
-        <div id="quiz-screen" class="hidden">
-            <div class="progress-container">
-                <div class="progress-bar" id="progress-bar"></div>
-            </div>
-            <div class="header-stats">
-                <span id="question-counter">Domanda 1/20</span>
-                <span id="score-counter">Punteggio: 0</span>
-            </div>
-
-            <div class="card" id="question-card">
-                <h2 id="question-text">Caricamento domanda...</h2>
-                <div id="options-container" class="options-grid">
-                    </div>
-            </div>
-
-            <div id="feedback-area" class="feedback-box hidden">
-                <div class="feedback-header">
-                    <span id="feedback-icon"></span>
-                    <strong id="feedback-title"></strong>
-                </div>
-                <p id="feedback-text"></p>
-                <button id="next-btn" class="btn-primary">Prossima Domanda</button>
-            </div>
-        </div>
-
-        <div id="result-screen" class="card hidden">
-            <div id="result-icon"></div>
-            <h1 id="result-title">Esame Completato</h1>
-            <p id="result-message"></p>
-            <div class="score-display">
-                <span id="final-score"></span>
-            </div>
-            <p id="percentage-display"></p>
-            <button onclick="location.reload()" class="btn-secondary">Riprova Esame</button>
-        </div>
-
+      <button id="start-btn" class="btn-primary" disabled>Inizia Quiz</button>
     </div>
 
-    <script src="script.js"></script>
+    <!-- QUIZ -->
+    <div id="quiz-screen" class="hidden">
+      <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <div class="header-stats">
+        <span id="question-counter">Domanda 1/20</span>
+        <span id="score-counter">Punteggio: 0</span>
+      </div>
+
+      <div class="card question-card fade-in">
+        <div class="question-meta">
+          <h2 id="question-text">Domanda</h2>
+          <small id="multi-hint"></small>
+        </div>
+
+        <div id="options-container" class="options"></div>
+
+        <div class="actions-row">
+          <button id="back-btn" class="btn-secondary">Indietro</button>
+          <button id="confirm-btn" class="btn-primary">Conferma risposta</button>
+          <button id="next-btn" class="btn-secondary">Avanti</button>
+        </div>
+
+        <div id="feedback-box" class="feedback hidden"></div>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div id="result-screen" class="card hidden fade-in">
+      <h1 id="result-title">Risultato</h1>
+      <p id="result-subtitle" class="subtitle"></p>
+
+      <div class="result-stats">
+        <div class="stat">
+          <div class="stat-label">Punteggio</div>
+          <div class="stat-value" id="final-score">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Soglia</div>
+          <div class="stat-value" id="final-threshold">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Totale domande</div>
+          <div class="stat-value" id="final-total">0</div>
+        </div>
+      </div>
+
+      <div class="review-box" id="review-box"></div>
+
+      <button id="retry-btn" class="btn-primary">Ricomincia</button>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>
