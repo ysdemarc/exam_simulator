@@ -248,10 +248,21 @@ function renderQuestion() {
     optionsContainer.appendChild(btn);
   });
 
-  // bottoni
-  backBtn.disabled = (currentIndex === 0);
-  nextBtn.disabled = (currentIndex === total - 1) || !confirmed[currentIndex];
-  confirmBtn.disabled = confirmed[currentIndex] || (tempSelections[currentIndex].length === 0);
+  // --- Bottoni ---
+backBtn.disabled = (currentIndex === 0);
+
+// MODIFICA QUI: Il tasto next non deve essere disabilitato se siamo all'ultima domanda, 
+// a patto che la risposta sia stata confermata.
+nextBtn.disabled = !confirmed[currentIndex];
+
+// Opzionale: Cambia il testo del pulsante all'ultima domanda per chiarezza
+if (currentIndex === total - 1) {
+  nextBtn.textContent = 'Termina Esame';
+} else {
+  nextBtn.textContent = 'Avanti';
+}
+
+confirmBtn.disabled = confirmed[currentIndex] || (tempSelections[currentIndex].length === 0);
 
   // feedback
   if (!confirmed[currentIndex]) {
@@ -463,4 +474,5 @@ document.addEventListener('contextmenu', event => event.preventDefault());
 
 // init
 loadExamList();
+
 
