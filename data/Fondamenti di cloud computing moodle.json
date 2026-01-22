@@ -776,8 +776,7 @@
             "Portale per sviluppatori"
         ],
         "risposta_corretta": "Portale per sviluppatori",
-        "spiegazione": "Il Developer Portal è la faccia pubblica delle tue API. È un sito web generato automaticamente dove gli sviluppatori esterni possono leggere la documentazione, testare le API e, soprattutto, ottenere le chiavi di accesso (API Key)."
-    } "spiegazione": "Nel modello di responsabilità condivisa, il cliente gestisce la sicurezza del sistema operativo e i permessi sulle risorse."
+        "spiegazione": "Il Developer Portal è la faccia pubblica delle tue API. È un sito web generato automaticamente dove gli sviluppatori esterni possono leggere la documentazione, testare le API e, soprattutto, ottenere le chiavi di accesso (API Key)."    
   },
   {
     "id": 71,
