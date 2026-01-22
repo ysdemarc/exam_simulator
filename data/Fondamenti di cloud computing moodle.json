@@ -1,4 +1,4 @@
-[
+﻿[
     {
         "id": 0,
         "domanda": "In che modo un modello di accesso alle risorse con privilegi minimi contribuisce alla sicurezza del cloud?",
@@ -777,5 +777,292 @@
         ],
         "risposta_corretta": "Portale per sviluppatori",
         "spiegazione": "Il Developer Portal è la faccia pubblica delle tue API. È un sito web generato automaticamente dove gli sviluppatori esterni possono leggere la documentazione, testare le API e, soprattutto, ottenere le chiavi di accesso (API Key)."
-    }
+    } "spiegazione": "Nel modello di responsabilità condivisa, il cliente gestisce la sicurezza del sistema operativo e i permessi sulle risorse."
+  },
+  {
+    "id": 71,
+    "domanda": "Qual è un altro nome per la distribuzione on-premises?",
+    "opzioni": [
+      "Implementazione del cloud privato",
+      "Applicazioni cloud-based",
+      "Sviluppo ibrido",
+      "AWS Cloud"
+    ],
+    "risposta_corretta": [
+      "Implementazione del cloud privato"
+    ],
+    "spiegazione": "Un ambiente on-premises è spesso definito cloud privato perché l'infrastruttura è gestita internamente dall'organizzazione."
+  },
+  {
+    "id": 72,
+    "domanda": "Quale prospettiva dell'AWS Cloud Adoption Framework aiuta a progettare, implementare e ottimizzare l'infrastruttura AWS?",
+    "opzioni": [
+      "Prospettiva aziendale",
+      "Prospettiva piattaforma",
+      "Prospettiva operazioni",
+      "Prospettiva personale"
+    ],
+    "risposta_corretta": [
+      "Prospettiva piattaforma"
+    ],
+    "spiegazione": "La prospettiva piattaforma si concentra sull'architettura tecnica, sul networking e sui servizi fondamentali AWS."
+  },
+  {
+    "id": 73,
+    "domanda": "Quale affermazione descrive correttamente i Security Group?",
+    "opzioni": [
+      "Sono stateful e rifiutano tutto il traffico per impostazione predefinita",
+      "Sono stateful e consentono solo il traffico esplicitamente permesso",
+      "Sono stateless e consentono tutto il traffico",
+      "Sono stateless e rifiutano tutto il traffico"
+    ],
+    "risposta_corretta": [
+      "Sono stateful e consentono solo il traffico esplicitamente permesso"
+    ],
+    "spiegazione": "I Security Group sono firewall virtuali stateful che consentono esclusivamente il traffico definito nelle regole."
+  },
+  {
+    "id": 74,
+    "domanda": "Quale pilastro del Well-Architected Framework si concentra sulla capacità di un carico di lavoro di recuperare da errori?",
+    "opzioni": [
+      "Eccellenza operativa",
+      "Efficienza delle prestazioni",
+      "Sicurezza",
+      "Affidabilità"
+    ],
+    "risposta_corretta": [
+      "Affidabilità"
+    ],
+    "spiegazione": "Il pilastro Affidabilità riguarda la resilienza, il recovery e la continuità operativa dei sistemi."
+  },
+  {
+    "id": 75,
+    "domanda": "Quali scenari rendono consigliabile l'utilizzo di Amazon RDS? (Seleziona DUE risposte)",
+    "opzioni": [
+      "Utilizzo di SQL per organizzare i dati",
+      "Archiviazione dei dati in un database chiave-valore",
+      "Esecuzione di un database serverless",
+      "Archiviazione dei dati in un database Amazon Aurora"
+    ],
+    "risposta_corretta": [
+      "Utilizzo di SQL per organizzare i dati",
+      "Archiviazione dei dati in un database Amazon Aurora"
+    ],
+    "spiegazione": "Amazon RDS è adatto a database relazionali che utilizzano SQL; Amazon Aurora è un motore compatibile gestito tramite RDS."
+  },
+  {
+    "id": 76,
+    "domanda": "Quali attività è possibile eseguire utilizzando AWS CloudTrail? (Seleziona DUE risposte)",
+    "opzioni": [
+      "Monitorare l'infrastruttura AWS in tempo reale",
+      "Tenere traccia delle attività degli utenti e delle richieste API",
+      "Visualizzare metriche e grafici sulle prestazioni",
+      "Filtrare i log per facilitare l'analisi operativa"
+    ],
+    "risposta_corretta": [
+      "Tenere traccia delle attività degli utenti e delle richieste API",
+      "Filtrare i log per facilitare l'analisi operativa"
+    ],
+    "spiegazione": "AWS CloudTrail registra le chiamate API e consente l'analisi dei log per audit e investigazioni di sicurezza."
+  },
+  {
+    "id": 77,
+    "domanda": "Quale affermazione descrive correttamente le Network ACL (NACL) predefinite in un account AWS?",
+    "opzioni": [
+      "Sono stateful e negano tutto il traffico",
+      "Sono stateless e consentono tutto il traffico",
+      "Sono stateful e consentono tutto il traffico",
+      "Sono stateless e negano tutto il traffico"
+    ],
+    "risposta_corretta": [
+      "Sono stateless e consentono tutto il traffico"
+    ],
+    "spiegazione": "Le NACL predefinite sono stateless e permettono tutto il traffico in ingresso e in uscita."
+  },
+  {
+    "id": 78,
+    "domanda": "Quali compiti sono responsabilità del cliente nel modello di responsabilità condivisa AWS? (Seleziona DUE risposte)",
+    "opzioni": [
+      "Manutenzione dell'infrastruttura di rete",
+      "Patching del software sulle istanze EC2",
+      "Implementazione della sicurezza fisica nei data center",
+      "Configurazione delle autorizzazioni per gli oggetti Amazon S3"
+    ],
+    "risposta_corretta": [
+      "Patching del software sulle istanze EC2",
+      "Configurazione delle autorizzazioni per gli oggetti Amazon S3"
+    ],
+    "spiegazione": "Nel modello di responsabilità condivisa, il cliente gestisce la sicurezza del sistema operativo e i permessi sulle risorse."
+  },
+  {
+    "id": 79,
+    "domanda": "A quali entità possono essere applicate le Service Control Policy (SCP) in AWS Organizations? (Seleziona DUE risposte)",
+    "opzioni": [
+      "Utenti IAM",
+      "Gruppi IAM",
+      "Account di un singolo membro",
+      "Unità organizzative (OU)"
+    ],
+    "risposta_corretta": [
+      "Account di un singolo membro",
+      "Unità organizzative (OU)"
+    ],
+    "spiegazione": "Le Service Control Policy possono essere applicate ad account o unità organizzative per limitare i permessi massimi."
+  },
+  {
+    "id": 80,
+    "domanda": "Qual è l'opzione di acquisto Amazon EC2 più conveniente per un carico di lavoro di 6 mesi resistente alle interruzioni?",
+    "opzioni": [
+      "Istanza riservata",
+      "Istanza spot",
+      "Istanza dedicata",
+      "Istanza on-demand"
+    ],
+    "risposta_corretta": [
+      "Istanza spot"
+    ],
+    "spiegazione": "Le istanze Spot offrono il costo più basso ma possono essere interrotte, rendendole adatte a carichi di lavoro flessibili."
+  },
+  {
+    "id": 81,
+    "domanda": "Quali classi di archiviazione Amazon S3 sono ottimizzate per l'archiviazione a lungo termine? (Seleziona DUE risposte)",
+    "opzioni": [
+      "S3 Standard",
+      "S3 Glacier",
+      "S3 Intelligent-Tiering",
+      "S3 Glacier Deep Archive"
+    ],
+    "risposta_corretta": [
+      "S3 Glacier",
+      "S3 Glacier Deep Archive"
+    ],
+    "spiegazione": "S3 Glacier e S3 Glacier Deep Archive sono progettate per l'archiviazione a lungo termine a costi molto ridotti."
+  },
+  {
+    "id": 82,
+    "domanda": "Quale affermazione sull'infrastruttura globale AWS è corretta?",
+    "opzioni": [
+      "Una regione è composta da una sola zona di disponibilità",
+      "Una zona di disponibilità è composta da più regioni",
+      "Una regione è composta da due o più zone di disponibilità",
+      "Una zona di disponibilità è una singola regione"
+    ],
+    "risposta_corretta": [
+      "Una regione è composta da due o più zone di disponibilità"
+    ],
+    "spiegazione": "Ogni regione AWS è costituita da più Availability Zone isolate per garantire alta disponibilità."
+  },
+  {
+    "id": 83,
+    "domanda": "Secondo le best practice AWS, dove dovrebbero essere posizionate le istanze EC2 e RDS in una VPC?",
+    "opzioni": [
+      "EC2 private e RDS pubbliche",
+      "EC2 pubbliche e RDS private",
+      "Entrambe pubbliche",
+      "Entrambe private"
+    ],
+    "risposta_corretta": [
+      "EC2 pubbliche e RDS private"
+    ],
+    "spiegazione": "Le istanze EC2 accessibili agli utenti sono in subnet pubbliche, mentre i database RDS devono essere in subnet private."
+  },
+  {
+    "id": 84,
+    "domanda": "Quale classe di archiviazione Amazon S3 è più adatta a dati raramente accessi ma immediatamente disponibili?",
+    "opzioni": [
+      "S3 Glacier",
+      "S3 Standard-IA",
+      "S3 Intelligent-Tiering",
+      "S3 Glacier Deep Archive"
+    ],
+    "risposta_corretta": [
+      "S3 Standard-IA"
+    ],
+    "spiegazione": "S3 Intelligent-Tiering sposta automaticamente i dati tra livelli di costo in base ai pattern di accesso."
+  },
+  {
+    "id": 85,
+    "domanda": "Quale strategia di migrazione AWS prevede la sostituzione di un'applicazione con un prodotto SaaS?",
+    "opzioni": [
+      "Refactoring",
+      "Retiring",
+      "Replatforming",
+      "Repurchasing"
+    ],
+    "risposta_corretta": [
+      "Repurchasing"
+    ],
+    "spiegazione": "Repurchasing consiste nel sostituire un'applicazione esistente con una soluzione SaaS di terze parti."
+  },
+  {
+    "id": 86,
+    "domanda": "Quali sono le durate disponibili per le Reserved Instance di Amazon EC2? (Seleziona DUE risposte)",
+    "opzioni": [
+      "1 anno",
+      "2 anni",
+      "3 anni",
+      "4 anni"
+    ],
+    "risposta_corretta": [
+      "1 anno",
+      "3 anni"
+    ],
+    "spiegazione": "Le Reserved Instance EC2 sono disponibili con durata di 1 o 3 anni, offrendo sconti rispetto alle istanze on-demand."
+  },
+  {
+    "id": 87,
+    "domanda": "Quale affermazione descrive meglio Amazon CloudFront?",
+    "opzioni": [
+      "Un servizio di messaggistica asincrona",
+      "Un motore di elaborazione serverless",
+      "Un servizio di distribuzione di contenuti a livello globale",
+      "Un servizio di gestione DNS"
+    ],
+    "risposta_corretta": [
+      "Un servizio di distribuzione di contenuti a livello globale"
+    ],
+    "spiegazione": "Amazon CloudFront è una CDN che distribuisce contenuti tramite edge location in tutto il mondo."
+  },
+  {
+    "id": 88,
+    "domanda": "Quale opzione AWS è la migliore per fornire accesso temporaneo alle risorse S3?",
+    "opzioni": [
+      "Utente root",
+      "Gruppo IAM",
+      "Ruolo IAM",
+      "Service Control Policy"
+    ],
+    "risposta_corretta": [
+      "Ruolo IAM"
+    ],
+    "spiegazione": "I ruoli IAM consentono accesso temporaneo e sicuro senza l'uso di credenziali permanenti."
+  },
+  {
+    "id": 89,
+    "domanda": "Quale servizio AWS consente una connessione privata dedicata tra il data center aziendale e AWS?",
+    "opzioni": [
+      "Internet Gateway",
+      "AWS VPN",
+      "AWS Direct Connect",
+      "VPC Peering"
+    ],
+    "risposta_corretta": [
+      "AWS Direct Connect"
+    ],
+    "spiegazione": "AWS Direct Connect fornisce una connessione privata e dedicata tra l'infrastruttura on-premises e AWS."
+  },
+  {
+    "id": 90,
+    "domanda": "Quale servizio AWS è più adatto per distribuire e gestire applicazioni containerizzate?",
+    "opzioni": [
+      "AWS Lambda",
+      "Amazon SNS",
+      "Amazon SQS",
+      "Amazon EKS"
+    ],
+    "risposta_corretta": [
+      "Amazon EKS"
+    ],
+    "spiegazione": "Amazon EKS è il servizio gestito AWS per l'orchestrazione di container Kubernetes."
+  }
 ]
