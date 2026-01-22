@@ -91,39 +91,54 @@ input:disabled {
 }
 
 /* =====================
-   BUTTONS
+   BUTTONS – HIGH CONTRAST
 ===================== */
 button {
   font-family: inherit;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
+  letter-spacing: .3px;
 }
 
+/* PRIMARY (Conferma / Inizia / Ricomincia) */
 .btn-primary {
-  background: linear-gradient(135deg, #6366f1, #818cf8);
-  color: #020617;
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: #ffffff;
   border: none;
-  border-radius: 12px;
-  padding: 12px 18px;
+  border-radius: 14px;
+  padding: 14px 20px;
+  box-shadow: 0 8px 18px rgba(79,70,229,.45);
 }
 
+.btn-primary:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 10px 24px rgba(99,102,241,.6);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+/* SECONDARY (Avanti / Indietro) */
 .btn-secondary {
   background: #020617;
   color: #e5e7eb;
-  border: 1px solid rgba(148,163,184,.35);
-  border-radius: 12px;
-  padding: 12px 18px;
+  border: 2px solid #6366f1;
+  border-radius: 14px;
+  padding: 14px 20px;
 }
 
-.btn-primary:hover,
 .btn-secondary:hover {
-  filter: brightness(1.1);
+  background: rgba(99,102,241,.15);
 }
 
+/* DISABLED */
 button:disabled {
-  opacity: .5;
+  opacity: .45;
   cursor: not-allowed;
+  box-shadow: none;
 }
+
 
 /* =====================
    PROGRESS
