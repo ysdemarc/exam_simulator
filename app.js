@@ -285,15 +285,7 @@ function toggleSelection(option, required) {
     if (newSel.length === 1) {
       confirmAnswer(); // auto conferma
     } else {
-      //renderQuestion();
-
-       if (currentIndex < questions.length - 1) {
-          //currentIndex++;
-          renderQuestion();
-        } else {
-          finishGame();
-        }
-      
+      renderQuestion();
     }
     return;
   }
@@ -474,5 +466,6 @@ document.addEventListener('contextmenu', event => event.preventDefault());
 
 // init
 loadExamList();
+
 
 
